@@ -11,8 +11,7 @@ const loginUserFlow = ({firebase, api}) => ({dispatch}) => next => async (action
             localStorage.setItem('userId', userId);
             dispatch(loginUserSuccess(userId));
         }catch (error){
-            console.log(error.message)
-            dispatch(loginUserFailure(error));
+            dispatch(loginUserFailure(error.message));
         }
     }
 }
