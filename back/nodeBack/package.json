@@ -1,0 +1,20 @@
+{
+  "name": "nodeback",
+  "version": "1.0.0",
+  "description": "BACK CON NODE JS",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/infrastructure/server/server.js",
+    "dev": "nodemon src/infrastructure/server/server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.13.3",
+    "nodemon": "^2.0.12"
+  }
+}
