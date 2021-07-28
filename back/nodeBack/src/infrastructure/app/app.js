@@ -13,6 +13,6 @@ app.use(bodyParser.json());
 app.use(cors());
 
 //Routers
-
+app.use(require('../routes/director'));
 
 module.exports = app
