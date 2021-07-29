@@ -5,13 +5,14 @@ export const transformMovieListFromBack = (movieListfromBack) =>{
             title: movie.title, 
             rate: movie.rate,
             director:movie.movieDirector.nombre,
-            actors: movie.characters.map(i => i.nombre.nombre),
-            categories: movie.categories.map(i => i.nombre.nombre),
-            trailer: movie.urlTrailer.url, 
-            image : movie.urlImage.url,
-            plot:movie.plot.plot
+            actors: movie.characters.map(i => i.nombre.value),
+            categories: movie.categories.map(i => i.nombre.value),
+            trailer: movie.urlTrailer.value, 
+            image: movie.urlImage.value,
+            plot:movie.plot.value
         };
         return currentMovie;
     });
     return movies;
 }
+
