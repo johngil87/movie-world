@@ -1,4 +1,4 @@
-const RepositoryCharacter = require("../../domain/movie/");
+const RepositoryCharacter = require("../../domain/movie/character/repositoryCharacter");
 const Character = require("../database/models/CharacterSchema");
 
 class RepositoryCharacterDb extends RepositoryCharacter{
