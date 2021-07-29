@@ -14,5 +14,6 @@ app.use(cors());
 
 //Routers
 app.use(require('../routes/director'));
+app.use(require('../routes/category'));
 
 module.exports = app
