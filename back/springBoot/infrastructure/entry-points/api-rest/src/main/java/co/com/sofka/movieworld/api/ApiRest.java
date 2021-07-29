@@ -2,11 +2,14 @@ package co.com.sofka.movieworld.api;
 import co.com.sofka.movieworld.model.movie.Movie;
 import co.com.sofka.movieworld.usecase.movie.CreateMovieUseCase;
 import co.com.sofka.movieworld.usecase.movie.GetMovieByIdUseCase;
+import co.com.sofka.movieworld.usecase.movie.GetMoviesUseCase;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/api", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -16,6 +19,7 @@ public class ApiRest {
     private final MovieMapper movieMapper;
     private final CreateMovieUseCase createMovieUseCase;
     private final GetMovieByIdUseCase getMovieByIdUseCase;
+    private final GetMoviesUseCase getMoviesUseCase;
 
 
     @PostMapping(path = "/createmovie")
@@ -33,5 +37,11 @@ public class ApiRest {
 
             return  new ResponseEntity<>(movieMapper.movieToDto(getMovieByIdUseCase.getMovieById(id)),HttpStatus.OK);
 
+    }
+
+    @GetMapping(path = "/listmovies")
+    public List<MovieDTO> listarMovies(){
+        List<Movie> list = getMoviesUseCase.execute();
+        return movieMapper.listMovieToDto(list);
     }
 }
