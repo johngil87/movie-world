@@ -6,14 +6,10 @@ import {getUser} from "../../application/selectors/user";
 
 
 const Home = ({loginUser, user}) => {
-
+    
     const loginWithGoogleUser = () => {
         loginUser();
     }
-
-    useEffect(()=>{
-        console.log(user)
-    },[user])
 
     return (
         <div className="container text-center">

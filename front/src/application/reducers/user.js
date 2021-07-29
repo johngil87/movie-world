@@ -1,7 +1,7 @@
-import {LOGIN_USER_SUCCESS, LOGIN_USER_FAILURE} from "../actions/user";
+import {LOGIN_USER_SUCCESS, LOGIN_USER_FAILURE, LOGOUT_SUCCESS} from "../actions/user";
 
 const initialState = {
-    userUid: localStorage.getItem('userId'),
+    userId: localStorage.getItem('userId'),
     error: null
 };
 
