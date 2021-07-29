@@ -1,0 +1,1 @@
+export const getTopMovieList = state => state.movie.topMovies;
