@@ -9,6 +9,10 @@ class RepositoryMovieDb extends RepositoryMovie{
     let movieResult = await Movie.findById(_id);
     return movieResult
     }
+    async getAllMovies() {
+      let movieResult = await Movie.find();
+      return movieResult
+    }
 };
 
 module.exports = RepositoryMovieDb;
