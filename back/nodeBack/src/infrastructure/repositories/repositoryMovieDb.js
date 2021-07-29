@@ -11,6 +11,7 @@ class RepositoryMovieDb extends RepositoryMovie{
     }
     async getAllMovies() {
       let movieResult = await Movie.find();
+      console.log(movieResult)
       return movieResult
     }
     async getMovieByTitle(name) {
@@ -29,6 +30,16 @@ class RepositoryMovieDb extends RepositoryMovie{
       } 
       return result
     }
+    async getAllMoviesCategories() {
+      let movie = await Movie.find();
+      let result = movie.filter(currentMovie => {
+
+        console.log(currentMovie.category.nombre)
+        return currentMovie
+      })
+      return result
+    }
+
 };
 
 module.exports = RepositoryMovieDb;

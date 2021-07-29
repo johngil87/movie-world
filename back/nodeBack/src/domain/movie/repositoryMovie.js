@@ -17,7 +17,13 @@ class RepositoryMovie{
   } 
   async getMovieByTitle(title) {
     throw new Error("metodo no implementado")
-  } 
+  }
+  async getTopMovies() {
+    throw new Error("metodo no implementado")
+  }
+  async getAllMoviesCategories() {
+    throw new Error("metodo no implementado")
+  }  
 };
 
 module.exports = RepositoryMovie;
