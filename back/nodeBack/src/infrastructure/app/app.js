@@ -16,5 +16,6 @@ app.use(cors());
 app.use(require('../routes/director'));
 app.use(require('../routes/category'));
 app.use(require('../routes/character'));
+app.use(require('../routes/movie'));
 
 module.exports = app
