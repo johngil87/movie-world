@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {bindActionCreators} from "redux";
-import {getFavoriteMovies} from "../../application/actions/movie";
+import {getFavoriteMovies, deleteFavoriteMovie} from "../../application/actions/movie";
 import { connect } from "react-redux";
 import {getMovieList} from "../../application/selectors/movieList";
 import {getUser} from "../../application/selectors/user";
@@ -8,10 +8,14 @@ import {getUser} from "../../application/selectors/user";
 import Movies from "../components/Movies";
 
 
-const Favorites = ({getFavoriteMovies, movieList, user}) => {
+const Favorites = ({getFavoriteMovies, deleteFavoriteMovie, movieList, user}) => {
   useEffect(() => {
     getFavoriteMovies();
   }, []) 
+
+  const deleteMovie = (user, movieId) => {
+    deleteFavoriteMovie(user, movieId);
+  }
 
   return (
     <div class="container">
@@ -24,7 +28,7 @@ const Favorites = ({getFavoriteMovies, movieList, user}) => {
 
 
 const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({getFavoriteMovies}, dispatch);
+  return bindActionCreators({getFavoriteMovies, deleteFavoriteMovie}, dispatch);
 }
 
 const mapStateToProps = (state) => {
