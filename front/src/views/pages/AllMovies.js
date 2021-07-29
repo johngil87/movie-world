@@ -15,6 +15,10 @@ const AllMovies = ({getMoviesWithoutFilter, getMoviesByTitle, getMoviesByCategor
     getMoviesWithoutFilter();
   }, []) 
 
+  const onSubmitCategory = async (data) => {
+    getMoviesByCategory(data.category)
+  };
+
   const onSubmitTitle = async (data) => {
     getMoviesByTitle(data.title);
   };
@@ -25,7 +29,18 @@ const AllMovies = ({getMoviesWithoutFilter, getMoviesByTitle, getMoviesByCategor
       <hr></hr>
       <div>
         <div className="d-flex justify-content-between">
-          
+
+          <form className="form-inline" onSubmit={handleSubmit(onSubmitCategory)}>
+            <label htmlFor="category">Search by category:</label>
+            <select {...register("category")} className="form-control mr-sm-2" name="category" id="category">
+              <option value="Mostrar todos">Mostrar todos</option>
+              <option value="Genero1">Genero1</option>
+              <option value="Genero2">Genero2</option>
+            </select>
+            <button className="btn btn-success" type="submit">Buscar</button>
+          </form> 
+
+
           <form className="form-inline" onSubmit={handleSubmit(onSubmitTitle)}>
             <div className="form-group">
               <label htmlFor="title">Search by title:</label>

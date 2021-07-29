@@ -29,6 +29,20 @@ const getMoviesByTitleFlow = ({api}) => ({dispatch}) => next => async (action) =
     }
 }
 
+const getMoviesByCategoryFlow = ({api}) => ({dispatch}) => next => async (action) => {
+    next(action);
+    if(action.type === GET_MOVIES_BY_CATEGORY){
+        try{
+            const category = action.payload.category;
+            const movieListfromBack = await api.movie.getByCategory(category);
+            const movieList = transformMovieListFromBack(movieListfromBack);
+            dispatch(setMovieListSuccess(movieList));
+        }catch (error){
+            dispatch(setMovieListFailure(error.message));
+        }
+    }
+}
+
 export default [
     getMoviesWithoutFilterFlow,
     getMoviesByTitleFlow,

@@ -9,4 +9,8 @@ export default {
         const response = await axios.get('https://jsonplaceholder.typicode.com/todos');
         return response.data.slice(0,4);
     },
+    getByCategory: async (category) => {
+        const response = await axios.get('https://jsonplaceholder.typicode.com/todos');
+        return response.data.slice(0,5);
+    },
 }
