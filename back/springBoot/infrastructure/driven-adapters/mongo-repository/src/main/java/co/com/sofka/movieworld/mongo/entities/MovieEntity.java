@@ -47,6 +47,9 @@ public class MovieEntity {
         this.resumen = resumen;
     }
 
+    public MovieEntity() {
+    }
+
     public String getId() {
         return id;
     }

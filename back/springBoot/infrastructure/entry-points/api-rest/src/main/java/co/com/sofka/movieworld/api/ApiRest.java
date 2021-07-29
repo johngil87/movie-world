@@ -1,6 +1,7 @@
 package co.com.sofka.movieworld.api;
 import co.com.sofka.movieworld.model.movie.Movie;
 import co.com.sofka.movieworld.usecase.movie.CreateMovieUseCase;
+import co.com.sofka.movieworld.usecase.movie.GetMovieByIdUseCase;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -14,6 +15,7 @@ public class ApiRest {
 
     private final MovieMapper movieMapper;
     private final CreateMovieUseCase createMovieUseCase;
+    private final GetMovieByIdUseCase getMovieByIdUseCase;
 
 
     @PostMapping(path = "/createmovie")
@@ -24,5 +26,12 @@ public class ApiRest {
         }catch (Exception ex){
             return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
         }
+    }
+
+    @GetMapping(path = "/movie/{id}")
+    public  ResponseEntity<MovieDTO> getMovie(@PathVariable("id") String id){
+
+            return  new ResponseEntity<>(movieMapper.movieToDto(getMovieByIdUseCase.getMovieById(id)),HttpStatus.OK);
+
     }
 }

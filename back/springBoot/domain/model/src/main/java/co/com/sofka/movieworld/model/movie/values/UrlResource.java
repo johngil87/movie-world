@@ -6,9 +6,9 @@ public class UrlResource {
 
     private final String value;
 
-    public UrlResource(String recourse) {
-        Objects.requireNonNull(recourse, "el recurso no puede ser nulo");
-        this.value = recourse;
+    public UrlResource(String value) {
+        Objects.requireNonNull(value, "el recurso no puede ser nulo");
+        this.value = value;
     }
 
     public String getValue(){

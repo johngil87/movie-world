@@ -12,5 +12,5 @@ public interface MovieRepository {
 
     Movie findMovieById(String id);
 
-    Movie save(Movie movie);
+    Movie saveMovie(Movie movie);
 }
