@@ -1,32 +1,25 @@
-package co.com.sofka.movieworld.model.user;
+package co.com.sofka.movieworld.mongo.entities;
+
 import co.com.sofka.movieworld.model.movie.values.Name;
 import co.com.sofka.movieworld.model.movie.values.UrlResource;
-import co.com.sofka.movieworld.model.user.values.Email;
-import lombok.Builder;
-import lombok.Data;
+import co.com.sofka.movieworld.model.user.Rate;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Set;
 
-@Data
-@Builder(toBuilder = true)
-public class User {
+@Document
+public class UserEntity {
 
+    @Id
     private String id;
     private Name nombre;
-    private Email correo;
+    private String correo;
     private UrlResource image;
     private Set<String> idFavorites;
-    private Set<Rate> rate;
+    private Set<Rate>  rate;
 
-    public User(Name nombre, Email correo, UrlResource image, Set<String> idFavorites, Set<Rate> rate) {
-        this.nombre = nombre;
-        this.correo = correo;
-        this.image = image;
-        this.idFavorites = idFavorites;
-        this.rate = rate;
-    }
-
-    public User(String id, Name nombre, Email correo, UrlResource image, Set<String> idFavorites, Set<Rate> rate) {
+    public UserEntity(String id, Name nombre, String correo, UrlResource image, Set<String> idFavorites, Set<Rate> rate) {
         this.id = id;
         this.nombre = nombre;
         this.correo = correo;
@@ -35,16 +28,15 @@ public class User {
         this.rate = rate;
     }
 
-    public void addFavorites(String idMovie){
-        this.idFavorites.add(idMovie);
-    }
-
-    public void removeFavorites(String idMovie){
-        this.idFavorites.remove(idMovie);
-    }
-
-    public void rateMovie(Set<Rate> rate){
+    public UserEntity(Name nombre, String correo, UrlResource image, Set<String> idFavorites, Set<Rate> rate) {
+        this.nombre = nombre;
+        this.correo = correo;
+        this.image = image;
+        this.idFavorites = idFavorites;
         this.rate = rate;
+    }
+
+    public UserEntity() {
     }
 
     public String getId() {
@@ -63,11 +55,11 @@ public class User {
         this.nombre = nombre;
     }
 
-    public Email getCorreo() {
+    public String getCorreo() {
         return correo;
     }
 
-    public void setCorreo(Email correo) {
+    public void setCorreo(String correo) {
         this.correo = correo;
     }
 
