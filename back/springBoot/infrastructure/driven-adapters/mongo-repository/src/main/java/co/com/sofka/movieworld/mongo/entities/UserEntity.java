@@ -2,7 +2,7 @@ package co.com.sofka.movieworld.mongo.entities;
 
 import co.com.sofka.movieworld.model.movie.values.Name;
 import co.com.sofka.movieworld.model.movie.values.UrlResource;
-import co.com.sofka.movieworld.model.user.Rate;
+import co.com.sofka.movieworld.model.user.UserRate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -17,9 +17,9 @@ public class UserEntity {
     private String correo;
     private UrlResource image;
     private Set<String> idFavorites;
-    private Set<Rate>  rate;
+    private Set<UserRate>  rate;
 
-    public UserEntity(String id, Name nombre, String correo, UrlResource image, Set<String> idFavorites, Set<Rate> rate) {
+    public UserEntity(String id, Name nombre, String correo, UrlResource image, Set<String> idFavorites, Set<UserRate> rate) {
         this.id = id;
         this.nombre = nombre;
         this.correo = correo;
@@ -28,7 +28,7 @@ public class UserEntity {
         this.rate = rate;
     }
 
-    public UserEntity(Name nombre, String correo, UrlResource image, Set<String> idFavorites, Set<Rate> rate) {
+    public UserEntity(Name nombre, String correo, UrlResource image, Set<String> idFavorites, Set<UserRate> rate) {
         this.nombre = nombre;
         this.correo = correo;
         this.image = image;
@@ -79,11 +79,11 @@ public class UserEntity {
         this.idFavorites = idFavorites;
     }
 
-    public Set<Rate> getRate() {
+    public Set<UserRate> getRate() {
         return rate;
     }
 
-    public void setRate(Set<Rate> rate) {
+    public void setRate(Set<UserRate> rate) {
         this.rate = rate;
     }
 }

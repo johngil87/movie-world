@@ -1,51 +1,33 @@
-package co.com.sofka.movieworld.model.user;
+package co.com.sofka.movieworld.mongo.entities;
 
-
-import lombok.Builder;
-import lombok.Data;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
 
-@Data
-@Builder(toBuilder = true)
-public class Rate {
+@Document
+public class RateEntity {
 
+    @Id
     private String id;
     private String idMovie;
     private List<Double> rateUser;
     private Double finalRate;
 
-    public Rate(String id, String idMovie, List<Double> rateUser, Double finalRate ) {
+    public RateEntity(String idMovie, List<Double> rateUser, Double finalRate) {
+        this.idMovie = idMovie;
+        this.rateUser = rateUser;
+        this.finalRate = finalRate;
+    }
+
+    public RateEntity(String id, String idMovie, List<Double> rateUser, Double finalRate) {
         this.id = id;
         this.idMovie = idMovie;
         this.rateUser = rateUser;
         this.finalRate = finalRate;
     }
 
-    public Rate(String idMovie, List<Double> rateUser, Double finalRate) {
-        this.idMovie = idMovie;
-        this.rateUser = rateUser;
-        this.finalRate = finalRate;
-    }
-
-    public void addRate(Double rate){
-        rateUser.add(rate);
-        calculateStore();
-    }
-
-
-    private void calculateStore(){
-        Double accumulated = this.rateUser.stream().reduce((a,b)-> a+b).get();
-        int count = this.rateUser.size() * 5;
-        this.finalRate = accumulated * 100 / count;
-    }
-
-    public Double getFinalRate() {
-        return finalRate;
-    }
-
-    public void setFinalRate(Double finalRate) {
-        this.finalRate = finalRate;
+    public RateEntity() {
     }
 
     public String getId() {
@@ -72,5 +54,11 @@ public class Rate {
         this.rateUser = rateUser;
     }
 
+    public Double getFinalRate() {
+        return finalRate;
+    }
 
+    public void setFinalRate(Double finalRate) {
+        this.finalRate = finalRate;
+    }
 }

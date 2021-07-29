@@ -7,6 +7,7 @@ import co.com.sofka.movieworld.usecase.movie.GetMoviesUseCase;
 import co.com.sofka.movieworld.usecase.movie.GetTopMoviesUseCase;
 import co.com.sofka.movieworld.usecase.user.AddFavoritesUseCase;
 import co.com.sofka.movieworld.usecase.user.CreateUserUseCase;
+import co.com.sofka.movieworld.usecase.user.VoteMovieUseCase;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -22,12 +23,16 @@ public class ApiRest {
 
     private final MovieMapper movieMapper;
     private final UserMapper userMapper;
+    private final UserRateMapper userRateMapper;
     private final CreateMovieUseCase createMovieUseCase;
     private final GetMovieByIdUseCase getMovieByIdUseCase;
     private final GetMoviesUseCase getMoviesUseCase;
     private final GetTopMoviesUseCase topMoviesUseCase;
     private final CreateUserUseCase createUserUseCase;
     private final AddFavoritesUseCase addFavoritesUseCase;
+    private final VoteMovieUseCase voteMovieUseCase;
+
+
 
     @PostMapping(path = "/createmovie")
     public ResponseEntity<MovieDTO> commandName(@RequestBody MovieDTO movieDTO) {
@@ -79,5 +84,11 @@ public class ApiRest {
         }catch (Exception ex){
             return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
         }
+    }
+
+    @PutMapping(path = "/voteMovie")
+    public MovieDTO voteMovie(@RequestBody UserRateDTO userRateDTO){
+        Movie movie = voteMovieUseCase.execute(userRateMapper.dtoToUserRate(userRateDTO));
+        return movieMapper.movieToDto(movie);
     }
 }

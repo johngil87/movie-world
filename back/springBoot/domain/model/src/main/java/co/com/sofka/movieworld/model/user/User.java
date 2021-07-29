@@ -16,9 +16,9 @@ public class User {
     private Email correo;
     private UrlResource image;
     private Set<String> idFavorites;
-    private Set<Rate> rate;
+    private Set<UserRate> rate;
 
-    public User(Name nombre, Email correo, UrlResource image, Set<String> idFavorites, Set<Rate> rate) {
+    public User(Name nombre, Email correo, UrlResource image, Set<String> idFavorites, Set<UserRate> rate) {
         this.nombre = nombre;
         this.correo = correo;
         this.image = image;
@@ -26,7 +26,7 @@ public class User {
         this.rate = rate;
     }
 
-    public User(String id, Name nombre, Email correo, UrlResource image, Set<String> idFavorites, Set<Rate> rate) {
+    public User(String id, Name nombre, Email correo, UrlResource image, Set<String> idFavorites, Set<UserRate> rate) {
         this.id = id;
         this.nombre = nombre;
         this.correo = correo;
@@ -43,9 +43,10 @@ public class User {
         this.idFavorites.remove(idMovie);
     }
 
-    public void rateMovie(Set<Rate> rate){
-        this.rate = rate;
+    public void addRateMovie(UserRate rate){
+        this.rate.add(rate);
     }
+
 
     public String getId() {
         return id;
@@ -87,11 +88,11 @@ public class User {
         this.idFavorites = idFavorites;
     }
 
-    public Set<Rate> getRate() {
+    public Set<UserRate> getRate() {
         return rate;
     }
 
-    public void setRate(Set<Rate> rate) {
+    public void setRate(Set<UserRate> rate) {
         this.rate = rate;
     }
 }
