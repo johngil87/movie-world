@@ -5,6 +5,10 @@ export default {
         const response = await axios.get('https://jsonplaceholder.typicode.com/todos');
         return response.data.slice(0,3);
     },
+    getTop: async () => {
+        const response = await axios.get('https://jsonplaceholder.typicode.com/todos');
+        return response.data.slice(0,2);
+    },
     getByTitle: async (title) => {
         const response = await axios.get('https://jsonplaceholder.typicode.com/todos');
         return response.data.slice(0,4);

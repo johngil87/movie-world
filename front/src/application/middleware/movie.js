@@ -1,4 +1,4 @@
-import {GET_MOVIES_WITHOUT_FILTER, GET_FAVORITE_MOVIES, GET_MOVIES_BY_CATEGORY, GET_MOVIES_BY_TITLE, setMovieListSuccess, setMovieListFailure} from "../actions/movie";
+import {GET_MOVIES_WITHOUT_FILTER, GET_FAVORITE_MOVIES, GET_MOVIES_BY_CATEGORY, GET_MOVIES_BY_TITLE, GET_TOP_MOVIES, setMovieListSuccess, setMovieListFailure, setTopMovieListSuccess, setTopMovieListFailure} from "../actions/movie";
 import { transformMovieListFromBack } from "./helper/helper";
 
 
@@ -11,6 +11,19 @@ const getMoviesWithoutFilterFlow = ({api}) => ({dispatch}) => next => async (act
             dispatch(setMovieListSuccess(movieList));
         }catch (error){
             dispatch(setMovieListFailure(error.message));
+        }
+    }
+}
+
+const getTopMoviesFlow = ({api}) => ({dispatch}) => next => async (action) => {
+    next(action);
+    if(action.type === GET_TOP_MOVIES){
+        try{
+            const movieListfromBack = await api.movie.getTop();
+            const movieList = transformMovieListFromBack(movieListfromBack);
+            dispatch(setTopMovieListSuccess(movieList));
+        }catch (error){
+            dispatch(setTopMovieListFailure(error.message));
         }
     }
 }
@@ -60,6 +73,7 @@ const getFavoriteMoviesFlow = ({api}) => ({dispatch}) => next => async (action) 
 
 export default [
     getMoviesWithoutFilterFlow,
+    getTopMoviesFlow,
     getMoviesByTitleFlow,
     getMoviesByCategoryFlow,
     getFavoriteMoviesFlow

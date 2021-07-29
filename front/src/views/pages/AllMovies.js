@@ -1,19 +1,22 @@
 import React, {useEffect} from 'react';
 import {bindActionCreators} from "redux";
-import {getMoviesWithoutFilter, getMoviesByTitle, getMoviesByCategory} from "../../application/actions/movie";
+import {getMoviesWithoutFilter, getMoviesByTitle, getMoviesByCategory, getTopMovies} from "../../application/actions/movie";
 import { connect } from "react-redux";
 import {getMovieList} from "../../application/selectors/movieList";
+import {getTopMovieList} from "../../application/selectors/topMovieList";
 import {getUser} from "../../application/selectors/user";
 import { useForm } from "react-hook-form";
 
 import Movies from "../components/Movies";
+import TopMovies from "../components/TopMovies";
 
 
-const AllMovies = ({getMoviesWithoutFilter, getMoviesByTitle, getMoviesByCategory, movieList, user}) => {
+const AllMovies = ({getMoviesWithoutFilter, getMoviesByTitle, getMoviesByCategory, movieList, user, topMovieList}) => {
   const { register, handleSubmit } = useForm();
 
   useEffect(() => {
     getMoviesWithoutFilter();
+    getTopMovies();
   }, []) 
 
   const onSubmitCategory = async (data) => {
@@ -30,6 +33,8 @@ const AllMovies = ({getMoviesWithoutFilter, getMoviesByTitle, getMoviesByCategor
       <hr></hr>
       <div>
         <div className="d-flex justify-content-between">
+
+          <TopMovies movies={topMovieList}/>
 
           <form className="form-inline" onSubmit={handleSubmit(onSubmitCategory)}>
             <label htmlFor="category">Search by category:</label>
@@ -66,7 +71,8 @@ const mapDispatchToProps = (dispatch) => {
 const mapStateToProps = (state) => {
   return {
     movieList: getMovieList(state),
-    user: getUser(state)
+    user: getUser(state),
+    topMovieList: getTopMovieList(state),
   }
 }
 
