@@ -2,6 +2,7 @@ const RepositoryMovieDb = require('../repositories/repositoryMovieDb')
 const RepositoryDirectorDb = require('../repositories/repositoryDirectorDb')
 const getMovieByIdUseCase = require('../../application/usecases/movie/getMovieByIdUseCase')
 const getDirectorUseCase = require('../../application/usecases/getDirectorUseCase')
+const getAllMoviesUseCase = require('../../application/usecases/movie/getAllMoviesUseCase')
 
 const repositoryMovieDb = new RepositoryMovieDb()
 const repositoryDirectorDb = new RepositoryDirectorDb()
@@ -43,5 +44,15 @@ function findMovieDirector(){
     }
 }
 
+function listAllMovies(){
+    return async (req,res) => {
+        try{
+          let result = await getAllMoviesUseCase(repositoryMovieDb)
+           res.send(result)
+        }catch(error){
+          res.send(error)
+        }
+    }
+}
 
-module.exports = {findMovie, findMovieDirector}
+module.exports = {findMovie, findMovieDirector, listAllMovies}
