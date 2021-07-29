@@ -15,6 +15,20 @@ const getMoviesWithoutFilterFlow = ({api}) => ({dispatch}) => next => async (act
     }
 }
 
+const getMoviesByTitleFlow = ({api}) => ({dispatch}) => next => async (action) => {
+    next(action);
+    if(action.type === GET_MOVIES_BY_TITLE){
+        try{
+            const title = action.payload.title;
+            const movieListfromBack = await api.movie.getByTitle(title);
+            const movieList = transformMovieListFromBack(movieListfromBack);
+            dispatch(setMovieListSuccess(movieList));
+        }catch (error){
+            dispatch(setMovieListFailure(error.message));
+        }
+    }
+}
+
 export default [
     getMoviesWithoutFilterFlow,
     getMoviesByTitleFlow,
