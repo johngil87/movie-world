@@ -43,7 +43,7 @@ public class UserRepositoryAdapter extends AdapterOperations<UserEntity, UserEnt
     public User findUserById(String id) {
         Optional<UserEntity> userEntity = repository.findById(id);
         if(!userEntity.isPresent()){
-            throw new IllegalArgumentException("usuario no existe");
+            throw new IllegalArgumentException("usuario no existe ne la base de datos");
         }
         return new User(userEntity.get().getId(),userEntity.get().getNombre(), new Email(userEntity.get().getCorreo()),userEntity.get().getImage(), userEntity.get().getIdFavorites(), userEntity.get().getRate());
     }
