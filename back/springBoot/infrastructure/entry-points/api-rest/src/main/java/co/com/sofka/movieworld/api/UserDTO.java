@@ -2,7 +2,7 @@ package co.com.sofka.movieworld.api;
 
 import co.com.sofka.movieworld.model.movie.values.Name;
 import co.com.sofka.movieworld.model.movie.values.UrlResource;
-import co.com.sofka.movieworld.model.user.Rate;
+import co.com.sofka.movieworld.model.user.UserRate;
 import co.com.sofka.movieworld.model.user.values.Email;
 
 import java.util.Set;
@@ -14,9 +14,9 @@ public class UserDTO {
     private Email userEmail;
     private UrlResource userImage;
     private Set<String> idFavorites;
-    private Set<Rate> rate;
+    private Set<UserRate> rate;
 
-    public UserDTO(Name userName, Email userEmail, UrlResource userImage, Set<String> idFavorites, Set<Rate> rate) {
+    public UserDTO(Name userName, Email userEmail, UrlResource userImage, Set<String> idFavorites, Set<UserRate> rate) {
         this.userName = userName;
         this.userEmail = userEmail;
         this.userImage = userImage;
@@ -24,7 +24,7 @@ public class UserDTO {
         this.rate = rate;
     }
 
-    public UserDTO(String id, Name userName, Email userEmail, UrlResource userImage, Set<String> idFavorites, Set<Rate> rate) {
+    public UserDTO(String id, Name userName, Email userEmail, UrlResource userImage, Set<String> idFavorites, Set<UserRate> rate) {
         this.id = id;
         this.userName = userName;
         this.userEmail = userEmail;
@@ -76,11 +76,11 @@ public class UserDTO {
         this.idFavorites = idFavorites;
     }
 
-    public Set<Rate> getRate() {
+    public Set<UserRate> getRate() {
         return rate;
     }
 
-    public void setRate(Set<Rate> rate) {
+    public void setRate(Set<UserRate> rate) {
         this.rate = rate;
     }
 }

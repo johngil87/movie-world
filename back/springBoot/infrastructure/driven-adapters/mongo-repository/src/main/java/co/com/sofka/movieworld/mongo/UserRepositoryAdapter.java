@@ -35,7 +35,7 @@ public class UserRepositoryAdapter extends AdapterOperations<UserEntity, UserEnt
         }
         user.setId(entity.getId());
         user.setIdFavorites(entity.getIdFavorites());
-        user.rateMovie(entity.getRate());
+        user.setRate(entity.getRate());
         return user;
     }
 
