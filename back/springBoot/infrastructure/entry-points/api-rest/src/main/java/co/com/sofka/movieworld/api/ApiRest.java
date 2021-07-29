@@ -5,6 +5,7 @@ import co.com.sofka.movieworld.usecase.movie.CreateMovieUseCase;
 import co.com.sofka.movieworld.usecase.movie.GetMovieByIdUseCase;
 import co.com.sofka.movieworld.usecase.movie.GetMoviesUseCase;
 import co.com.sofka.movieworld.usecase.movie.GetTopMoviesUseCase;
+import co.com.sofka.movieworld.usecase.user.AddFavoritesUseCase;
 import co.com.sofka.movieworld.usecase.user.CreateUserUseCase;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -26,6 +27,7 @@ public class ApiRest {
     private final GetMoviesUseCase getMoviesUseCase;
     private final GetTopMoviesUseCase topMoviesUseCase;
     private final CreateUserUseCase createUserUseCase;
+    private final AddFavoritesUseCase addFavoritesUseCase;
 
     @PostMapping(path = "/createmovie")
     public ResponseEntity<MovieDTO> commandName(@RequestBody MovieDTO movieDTO) {
@@ -67,5 +69,15 @@ public class ApiRest {
             return new ResponseEntity<>(HttpStatus.BAD_GATEWAY);
         }
 
+    }
+
+    @PutMapping(path = "/addfavorite/{idUser}/{idMovie}")
+    public ResponseEntity<UserDTO> addFavoriteMovie(@PathVariable("idUser") String idUser, @PathVariable("idMovie") String idMovie){
+        try {
+            User user = addFavoritesUseCase.execute(idUser, idMovie);
+            return new ResponseEntity<>(userMapper.userToDto(user), HttpStatus.OK);
+        }catch (Exception ex){
+            return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+        }
     }
 }

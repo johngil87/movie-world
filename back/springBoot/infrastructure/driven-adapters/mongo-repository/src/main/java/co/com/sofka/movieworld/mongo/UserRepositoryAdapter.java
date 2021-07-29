@@ -2,12 +2,14 @@ package co.com.sofka.movieworld.mongo;
 
 import co.com.sofka.movieworld.model.user.User;
 import co.com.sofka.movieworld.model.user.gateways.UserRepository;
+import co.com.sofka.movieworld.model.user.values.Email;
 import co.com.sofka.movieworld.mongo.entities.MovieEntity;
 import co.com.sofka.movieworld.mongo.entities.UserEntity;
 import co.com.sofka.movieworld.mongo.helper.AdapterOperations;
 import org.reactivecommons.utils.ObjectMapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
 import java.util.function.Function;
 
 @Repository
@@ -39,7 +41,11 @@ public class UserRepositoryAdapter extends AdapterOperations<UserEntity, UserEnt
 
     @Override
     public User findUserById(String id) {
-        return null;
+        Optional<UserEntity> userEntity = repository.findById(id);
+        if(!userEntity.isPresent()){
+            throw new IllegalArgumentException("usuario no existe");
+        }
+        return new User(userEntity.get().getId(),userEntity.get().getNombre(), new Email(userEntity.get().getCorreo()),userEntity.get().getImage(), userEntity.get().getIdFavorites(), userEntity.get().getRate());
     }
 
     @Override
@@ -49,6 +55,8 @@ public class UserRepositoryAdapter extends AdapterOperations<UserEntity, UserEnt
 
     @Override
     public User addFavorites(User user) {
-        return null;
+        UserEntity entity = new UserEntity(user.getId(), user.getNombre(), user.getCorreo().getValue(), user.getImage(), user.getIdFavorites(), user.getRate());
+        user.setId(this.repository.save(entity).getId());
+        return user;
     }
 }
