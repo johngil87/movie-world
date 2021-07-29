@@ -58,7 +58,7 @@ public class MovieRepositoryAdapter extends AdapterOperations<MovieEntity, Movie
 
     @Override
     public Movie saveMovie(Movie movie) {
-        MovieEntity movieE = new MovieEntity(movie.getTitleMovie().getValue(), movie.getCharacter(), movie.getDirector(), movie.getPuntaje().getValue(), movie.getCategory(), movie.getUrlTrailer(), movie.getUrlImage(), movie.getPlot());
+        MovieEntity movieE = new MovieEntity(movie.getId(), movie.getTitleMovie().getValue(), movie.getCharacter(), movie.getDirector(), movie.getPuntaje().getValue(), movie.getCategory(), movie.getUrlTrailer(), movie.getUrlImage(), movie.getPlot());
         MovieEntity newMovieEntity = this.repository.save(movieE);
         Movie movieA = movie;
         movieA.setId(newMovieEntity.getId());
