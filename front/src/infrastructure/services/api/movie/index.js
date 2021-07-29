@@ -20,5 +20,9 @@ export default {
     getFavorites: async (userId) => {
         const response = await axios.get('https://jsonplaceholder.typicode.com/todos');
         return response.data.slice(0,6);
+    },
+    deleteFavorite: async (userId, movieId) => {
+        const response = await axios.get('https://jsonplaceholder.typicode.com/todos');
+        return response.data[0];
     }
 }

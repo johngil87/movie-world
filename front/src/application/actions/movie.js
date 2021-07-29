@@ -8,7 +8,9 @@ export const SET_MOVIE_LIST_SUCCESS = 'SET_MOVIE_LIST_SUCCESS';
 export const SET_MOVIE_LIST_FAILURE = 'SET_MOVIE_LIST_FAILURE';
 export const SET_TOP_MOVIE_LIST_SUCCESS = 'SET_TOP_MOVIE_LIST_SUCCESS';
 export const SET_TOP_MOVIE_LIST_FAILURE = 'SET_TOP_MOVIE_LIST_FAILURE';
-
+export const DELETE_FAVORITE_MOVIE = 'DELETE_FAVORITE_MOVIE';
+export const DELETE_FAVORITE_MOVIE_SUCCESS = 'DELETE_MOVIE_SUCCESS';
+export const DELETE_FAVORITE_MOVIE_FAILURE = 'DELETE_MOVIE_FAILURE';
 
 export const getMoviesWithoutFilter = () => ({
     type: GET_MOVIES_WITHOUT_FILTER,
@@ -52,3 +54,18 @@ export const setTopMovieListFailure = error => ({
     type: SET_TOP_MOVIE_LIST_FAILURE,
     payload: error
 });
+
+export const deleteFavoriteMovie = (userId, movieId) => ({
+    type: DELETE_FAVORITE_MOVIE,
+    payload: {userId: userId, movieId: movieId}
+});
+
+export const deleteFavoriteMovieSuccess = () => ({
+    type: DELETE_FAVORITE_MOVIE_SUCCESS
+});
+
+export const deleteFavoriteMovieFailure = error => ({
+    type: DELETE_FAVORITE_MOVIE_FAILURE,
+    payload: error
+});
+
