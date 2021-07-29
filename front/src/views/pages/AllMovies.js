@@ -3,6 +3,7 @@ import {bindActionCreators} from "redux";
 import {getMoviesWithoutFilter, getMoviesByTitle, getMoviesByCategory} from "../../application/actions/movie";
 import { connect } from "react-redux";
 import {getMovieList} from "../../application/selectors/movieList";
+import {getUser} from "../../application/selectors/user";
 import { useForm } from "react-hook-form";
 
 import Movies from "../components/Movies";
@@ -52,7 +53,7 @@ const AllMovies = ({getMoviesWithoutFilter, getMoviesByTitle, getMoviesByCategor
         </div>
       </div>
       <hr></hr>
-      <Movies movies = {movieList}/>
+      <Movies movies={movieList} user={user} isFavorite={false}/>
     </div>
   );   
 };
@@ -65,6 +66,7 @@ const mapDispatchToProps = (dispatch) => {
 const mapStateToProps = (state) => {
   return {
     movieList: getMovieList(state),
+    user: getUser(state)
   }
 }
 

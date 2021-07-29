@@ -1,6 +1,11 @@
 import React from 'react';
 
-const Movies = ({ movies }) => {
+const Movies = ({ user, movies, isFavorite, method }) => {
+
+  const deleteMovie = (user, movieId) => {
+    method(user, movieId);
+  };
+
   return(
     <div classNameName="row justify-content-around">
         {movies.map((movie,index) =>
@@ -11,6 +16,8 @@ const Movies = ({ movies }) => {
                     <h6 className="card-title">{movie.title}</h6>
                     <p className="card-text">Category: {movie.category}</p>
                     <p className="card-text">Rate: {movie.rate}</p>
+                    {isFavorite ? <button onClick={() => deleteMovie(user, movie.id)} class="btn btn-danger">Delete movie</button> : null
+                    }
                   </div>
                 </div>
             </div> 

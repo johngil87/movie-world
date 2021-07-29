@@ -1,5 +1,5 @@
 import {GET_MOVIES_WITHOUT_FILTER, GET_FAVORITE_MOVIES, GET_MOVIES_BY_CATEGORY, GET_MOVIES_BY_TITLE, setMovieListSuccess, setMovieListFailure} from "../actions/movie";
-import { transformMovieListFromBack } from "../helper/helper";
+import { transformMovieListFromBack } from "./helper/helper";
 
 
 const getMoviesWithoutFilterFlow = ({api}) => ({dispatch}) => next => async (action) => {
@@ -42,6 +42,21 @@ const getMoviesByCategoryFlow = ({api}) => ({dispatch}) => next => async (action
         }
     }
 }
+
+const getFavoriteMoviesFlow = ({api}) => ({dispatch}) => next => async (action) => {
+    next(action);
+    if(action.type === GET_FAVORITE_MOVIES){
+        try{
+            const userId = action.payload
+            const movieListfromBack = await api.movie.getFavorites(userId);
+            const movieList = transformMovieListFromBack(movieListfromBack);
+            dispatch(setMovieListSuccess(movieList));
+        }catch (error){
+            dispatch(setMovieListFailure(error.message));
+        }
+    }
+}
+
 
 export default [
     getMoviesWithoutFilterFlow,
