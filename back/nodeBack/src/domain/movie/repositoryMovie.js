@@ -15,6 +15,9 @@ class RepositoryMovie{
   async getCharactersByMovieId(_id) {
     throw new Error("metodo no implementado")
   } 
+  async getMovieByTitle(title) {
+    throw new Error("metodo no implementado")
+  } 
 };
 
 module.exports = RepositoryMovie;

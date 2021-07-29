@@ -3,6 +3,7 @@ const RepositoryDirectorDb = require('../repositories/repositoryDirectorDb')
 const getMovieByIdUseCase = require('../../application/usecases/movie/getMovieByIdUseCase')
 const getDirectorUseCase = require('../../application/usecases/getDirectorUseCase')
 const getAllMoviesUseCase = require('../../application/usecases/movie/getAllMoviesUseCase')
+const getMovieByTitleUseCase = require('../../application/usecases/movie/getMovieByTitleUseCase')
 
 const repositoryMovieDb = new RepositoryMovieDb()
 const repositoryDirectorDb = new RepositoryDirectorDb()
@@ -55,4 +56,21 @@ function listAllMovies(){
     }
 }
 
-module.exports = {findMovie, findMovieDirector, listAllMovies}
+function findMovieByTitle(){
+    return async (req,res) => {
+        try{
+            const movieData = req.params.name
+            let result = await getMovieByTitleUseCase(repositoryMovieDb, movieData)
+            if(!result){
+                res.status(400).json({
+                    error: "No hay coincidencia"
+                })
+            }
+            res.send(result)
+        }catch(error){
+            res.send(error)
+        }
+    }
+}
+
+module.exports = {findMovie, findMovieDirector, listAllMovies, findMovieByTitle}
