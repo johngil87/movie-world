@@ -1,12 +1,11 @@
 import {auth} from "../firebase";
-import {signInWithGoogle} from "../auth";
 
 export default {
     getUser: () =>{
         return {
+            userName:auth().currentUser.displayName,
             userEmail:auth().currentUser.email,
-            /*userUid:auth().currentUser.uid
-            photoURL:auth().currentUser.photoURL*/
+            userImage:auth().currentUser.photoURL
         }
     },
     authUserWithGoogle: ()=>{
