@@ -18,11 +18,11 @@ public class Category {
     public Category() {
     }
 
-    public Name getName() {
+    public Name getNombre() {
         return nombre;
     }
 
-    public void setName(Name nombre) {
+    public void setNombre(Name nombre) {
         this.nombre = nombre;
     }
 }
