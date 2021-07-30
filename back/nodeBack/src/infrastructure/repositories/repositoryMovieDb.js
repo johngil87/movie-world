@@ -29,6 +29,23 @@ class RepositoryMovieDb extends RepositoryMovie{
       } 
       return result
     }
+    async getAllMoviesCategories() {
+      let movie = await Movie.find();
+      let categoryList = [];
+      movie.filter(currentMovie => {
+        let categoryName = currentMovie.category[0].nombre.value
+        categoryList.push(categoryName)
+        return currentMovie
+      })
+      const resultReduce = categoryList.reduce((acc,item)=>{
+        if(!acc.includes(item)){
+          acc.push(item);
+        }
+        return acc;
+      },[])
+      return resultReduce
+    }
+
 };
 
 module.exports = RepositoryMovieDb;
