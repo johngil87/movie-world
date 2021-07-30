@@ -12,6 +12,8 @@ import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 @Repository
 public class MovieRepositoryAdapter extends AdapterOperations<MovieEntity, MovieEntity, String, MovieDBRepository>
@@ -42,9 +44,8 @@ public class MovieRepositoryAdapter extends AdapterOperations<MovieEntity, Movie
     public List<Movie> findAllMovieTop() {
         List<Movie> movieList = new ArrayList<>();
         List<MovieEntity> list = this.repository.findByPuntajeGreaterThanOrderByPuntajeDesc(94.0);
-        Movie movie;
         for (int i=0; i<list.size(); i++ ){
-            movie = new Movie(list.get(i).getId(), list.get(i).getDirector(), list.get(i).getCategoria(), list.get(i).getActores(), new Name(list.get(i).getTitulo()), new Score(list.get(i).getPuntaje()), list.get(i).getUrlTrailer(), list.get(i).getUrlImagen(), list.get(i).getResumen());
+            Movie movie = new Movie(list.get(i).getId(), list.get(i).getDirector(), list.get(i).getCategoria(), list.get(i).getActores(), new Name(list.get(i).getTitulo()), new Score(list.get(i).getPuntaje()), list.get(i).getUrlTrailer(), list.get(i).getUrlImagen(), list.get(i).getResumen());
             movieList.add(movie);
         }
         return movieList;
@@ -67,6 +68,19 @@ public class MovieRepositoryAdapter extends AdapterOperations<MovieEntity, Movie
 
     @Override
     public List<Movie> findAllByCategory(String category) {
-        return null;
+        List<Movie> movieList = new ArrayList<>();
+        List<MovieEntity> list = this.repository.findAll().stream().filter(filterByCategory(category)).collect(Collectors.toList());
+        for (int i=0; i<list.size(); i++ ){
+            Movie movie = new Movie(list.get(i).getId(), list.get(i).getDirector(), list.get(i).getCategoria(), list.get(i).getActores(), new Name(list.get(i).getTitulo()), new Score(list.get(i).getPuntaje()), list.get(i).getUrlTrailer(), list.get(i).getUrlImagen(), list.get(i).getResumen());
+            movieList.add(movie);
+        }
+        return movieList;
     }
+
+   private Predicate<MovieEntity> filterByCategory(String category){
+        return (MovieEntity movie)->{
+            return movie.getCategoria().stream().map(it-> it.getNombre().getValue()).collect(Collectors.joining()).equals(category);
+        };
+   }
+
 }
