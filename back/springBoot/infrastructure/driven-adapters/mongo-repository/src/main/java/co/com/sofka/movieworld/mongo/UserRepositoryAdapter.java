@@ -4,16 +4,13 @@ import co.com.sofka.movieworld.model.user.User;
 import co.com.sofka.movieworld.model.user.UserRate;
 import co.com.sofka.movieworld.model.user.gateways.UserRepository;
 import co.com.sofka.movieworld.model.user.values.Email;
-import co.com.sofka.movieworld.mongo.entities.MovieEntity;
 import co.com.sofka.movieworld.mongo.entities.UserEntity;
 import co.com.sofka.movieworld.mongo.helper.AdapterOperations;
 import org.reactivecommons.utils.ObjectMapper;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Repository
