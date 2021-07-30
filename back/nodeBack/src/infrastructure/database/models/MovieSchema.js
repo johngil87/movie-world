@@ -6,9 +6,9 @@ const MovieSchema = new Schema({
     poster_path: { type: String, required: false},
     backdrop_path: { type: String, required: false},
     category: { type: Array, required: false},
-    movieDirector: { type: Array, required: false},
+    movieDirector: { type: Object, required: false},
     characters: { type: Array, required: false},
-    plot: { type: Array, required: true}
+    plot: { type: Object, required: true}
 });
 
 const movie = mongoose.model('Movie', MovieSchema);

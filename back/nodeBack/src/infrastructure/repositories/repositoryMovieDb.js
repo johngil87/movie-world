@@ -11,7 +11,6 @@ class RepositoryMovieDb extends RepositoryMovie{
     }
     async getAllMovies() {
       let movieResult = await Movie.find();
-      console.log(movieResult)
       return movieResult
     }
     async getMovieByTitle(name) {
@@ -32,12 +31,19 @@ class RepositoryMovieDb extends RepositoryMovie{
     }
     async getAllMoviesCategories() {
       let movie = await Movie.find();
-      let result = movie.filter(currentMovie => {
-
-        console.log(currentMovie.category.nombre)
+      let categoryList = [];
+      movie.filter(currentMovie => {
+        let categoryName = currentMovie.category[0].nombre.value
+        categoryList.push(categoryName)
         return currentMovie
       })
-      return result
+      const resultReduce = categoryList.reduce((acc,item)=>{
+        if(!acc.includes(item)){
+          acc.push(item);
+        }
+        return acc;
+      },[])
+      return resultReduce
     }
 
 };
