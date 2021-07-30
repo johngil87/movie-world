@@ -10,5 +10,5 @@ public interface UserRepository {
 
     User saveUser(User user);
 
-    User addFavorites(User user);
+    User changeFavorites(User user);
 }

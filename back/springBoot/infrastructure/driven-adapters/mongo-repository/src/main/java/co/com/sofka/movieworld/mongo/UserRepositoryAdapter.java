@@ -56,7 +56,7 @@ public class UserRepositoryAdapter extends AdapterOperations<UserEntity, UserEnt
     }
 
     @Override
-    public User addFavorites(User user) {
+    public User changeFavorites(User user) {
         UserEntity entity = new UserEntity(user.getId(), user.getNombre(), user.getCorreo().getValue(), user.getImage(), user.getIdFavorites(), user.getRate());
         user.setId(this.repository.save(entity).getId());
         return user;
