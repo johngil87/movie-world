@@ -8,13 +8,13 @@ const loginUserFlow = ({firebase, api}) => ({dispatch}) => next => async (action
             const userEmail = await firebase.user.getUser().userEmail;
             const userName = await firebase.user.getUser().userName;
             const userImage = await firebase.user.getUser().userImage;
-            const UserToBack = {
+            const userToBack = {
                 userEmail: userEmail,
                 userName: userName,
                 userImage: userImage 
             }
-            const user = await api.user.getUser(UserToBack);
-            const userId = user.userId;
+            const user = await api.user.getUser(userToBack);
+            const userId = user.id;
             localStorage.setItem('userId', userId);
             dispatch(loginUserSuccess(userId));
         }catch (error){
@@ -22,19 +22,6 @@ const loginUserFlow = ({firebase, api}) => ({dispatch}) => next => async (action
         }
     }
 }
-
-/*const logoutUserFlow = ({firebase}) => ({dispatch}) => next => async (action) => { //SERGIO
-    next(action);
-    if(action.type === LOGOUT_USER){
-        try{
-            await firebase.user.logout()
-            localStorage.removeItem('userId');
-            dispatch(logoutSuccess(null));
-        }catch (error){
-            console.log(error)
-        }
-    }
-}*/
 
 export default [
     loginUserFlow,

@@ -3,21 +3,26 @@ import * as actions from '../actions/movie';
 const initialState = {
     movies: [],
     topMovies: [],
-    error: null
+    error: null,
+    currentMovie: null
 };
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
         case actions.SET_MOVIE_LIST_SUCCESS:
-            return { movies: action.payload, topMovies:state.topMovies, error: null };
+            return {...state, movies: action.payload, error: null};
         case actions.SET_MOVIE_LIST_FAILURE:
-            return { movies: null, topMovies:state.topMovies, error: action.payload };
+            return {...state, movies: null, error: action.payload};
         case actions.SET_TOP_MOVIE_LIST_SUCCESS:
-            return { movies: state.movies, topMovies: action.payload, error: null };
+            return {...state, topMovies: action.payload, error: null};
         case actions.SET_TOP_MOVIE_LIST_FAILURE:
-            return { movies: state.movies, topMovies:null, error: action.payload };
+            return {...state, topMovies:null, error: action.payload};
         case actions.DELETE_FAVORITE_MOVIE_FAILURE:
-            return { movies: state.movies, topMovies:state.topMovies, error: action.payload };
+            return {...state, error: action.payload};
+        case actions.SET_CURRENT_MOVIE_SUCCESS:
+            return {...state, error: null, currentMovie: action.payload};
+        case actions.SET_CURRENT_MOVIE_FAILURE:
+            return {...state, error: action.payload, currentMovie: null };
         default:
             return state;
     }

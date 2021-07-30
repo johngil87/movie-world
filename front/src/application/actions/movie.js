@@ -11,6 +11,10 @@ export const SET_TOP_MOVIE_LIST_FAILURE = 'SET_TOP_MOVIE_LIST_FAILURE';
 export const DELETE_FAVORITE_MOVIE = 'DELETE_FAVORITE_MOVIE';
 export const DELETE_FAVORITE_MOVIE_SUCCESS = 'DELETE_MOVIE_SUCCESS';
 export const DELETE_FAVORITE_MOVIE_FAILURE = 'DELETE_MOVIE_FAILURE';
+export const ADD_FAVORITE_MOVIE = 'ADD_FAVORITE_MOVIE';
+export const SET_CURRENT_MOVIE_SUCCESS = 'SET_CURRENT_MOVIE_SUCCESS';
+export const SET_CURRENT_MOVIE_FAILURE = 'SET_CURRENT_MOVIE_FAILURE';
+
 
 export const getMoviesWithoutFilter = () => ({
     type: GET_MOVIES_WITHOUT_FILTER,
@@ -30,9 +34,9 @@ export const getMoviesByCategory = (category) => ({
     payload: category
 });
 
-export const getFavoriteMovies = userId => ({
+export const getFavoriteMovies = (userId, isOnlyFavoritesCase) => ({
     type: GET_FAVORITE_MOVIES,
-    payload: userId
+    payload: {isOnlyFavoritesCase:isOnlyFavoritesCase, userId: userId}
 });
 
 export const setMovieListSuccess = movieList => ({
@@ -69,3 +73,17 @@ export const deleteFavoriteMovieFailure = error => ({
     payload: error
 });
 
+export const getCurrentMovie = (movieId) => ({
+    type: GET_CURRENT_MOVIE,
+    payload: movieId
+});
+
+export const setCurrentMovieSuccess = movie => ({
+    type: SET_CURRENT_MOVIE_SUCCESS,
+    payload: movie
+});
+
+export const setCurrentMovieFailure = error => ({
+    type: SET_CURRENT_MOVIE_FAILURE,
+    payload: error
+});
