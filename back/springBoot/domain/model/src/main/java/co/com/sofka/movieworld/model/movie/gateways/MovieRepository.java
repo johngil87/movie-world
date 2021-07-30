@@ -14,4 +14,6 @@ public interface MovieRepository {
 
     Movie saveMovie(Movie movie);
 
+    List<Movie> findAllByCategory(String category);
+
 }
