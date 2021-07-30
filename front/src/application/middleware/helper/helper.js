@@ -15,7 +15,7 @@ export const transformMovieListFromBack = (movieListfromBack) =>{
             category: movie.category[0].nombre.value,
             trailer: movie.urlTrailer.value, 
             image: movie.urlImage.value,
-            //plot:movie.plot.value
+            plot:movie.plot.value
         };
         return currentMovie;
     });
@@ -40,7 +40,7 @@ export const transformMovieFromBack = (moviefromBack) =>{
         category: moviefromBack.category[0].nombre.value,
         trailer: moviefromBack.urlTrailer.value, 
         image: moviefromBack.urlImage.value,
-        //plot:moviefromBack.plot.value
+        plot:moviefromBack.plot.value
     };
     return movie;
 }

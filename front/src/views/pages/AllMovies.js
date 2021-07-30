@@ -60,10 +60,10 @@ const AllMovies = ({getMoviesWithoutFilter, getMoviesByTitle, getMoviesByCategor
           </div>
           <button className="btn btn-success" type="submit">Buscar</button>
         </form>*/}
-        <button className="mt-5 btn btn-primary px-4" onClick={() => filterTitle("the")}> 
+        <button className="mt-5 btn btn-primary px-4" onClick={() => filterTitle("Terror")}> 
           <i className="bi bi-google"/> Filtrar por titulo
         </button>
-        <button className="mt-5 btn btn-primary px-4" onClick={() => filterCategory("Terror")}> 
+        <button className="mt-5 btn btn-primary px-4" onClick={() => filterCategory("The")}> 
           <i className="bi bi-google"/> Filtrar por Categoria
         </button>
       </div>

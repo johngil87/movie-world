@@ -14,9 +14,13 @@ const loginUserFlow = ({firebase, api}) => ({dispatch}) => next => async (action
                 userImage: userImage 
             }
             const user = await api.user.getUser(userToBack);
-            const userId = user.id;
-            localStorage.setItem('userId', userId);
-            dispatch(loginUserSuccess(userId));
+            const id = user.id;
+            const name = user.userName.value;
+            const image = user.userImage.value;
+            localStorage.setItem('userId', id);
+            localStorage.setItem('userName', name);
+            localStorage.setItem('userImage', image);
+            dispatch(loginUserSuccess(id, name, image));
         }catch (error){
             dispatch(loginUserFailure(error.message));
         }

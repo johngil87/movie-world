@@ -3,6 +3,7 @@ import * as actions from '../actions/movie';
 const initialState = {
     movies: [],
     topMovies: [],
+    votedMovies: [],
     error: null,
     currentMovie: null
 };
@@ -23,6 +24,10 @@ const reducer = (state = initialState, action) => {
             return {...state, error: null, currentMovie: action.payload};
         case actions.SET_CURRENT_MOVIE_FAILURE:
             return {...state, error: action.payload, currentMovie: null };
+        case actions.SET_VOTED_MOVIES_SUCCESS:
+            return {...state, error: null, votedMovies: action.payload};
+        case actions.SET_VOTED_MOVIES_FAILURE:
+            return {...state, error: action.payload, votedMovies: null };
         default:
             return state;
     }

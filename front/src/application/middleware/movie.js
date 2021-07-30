@@ -42,8 +42,12 @@ const getMoviesByTitleFlow = ({api}) => ({dispatch}) => next => async (action) =
             dispatch(uiActions.setLoading(true));
             const title = action.payload;
             const movieListfromBack = await api.movie.getByTitle(title);
-            const movieList = transformMovieListFromBack(movieListfromBack);
-            dispatch(movieActions.setMovieListSuccess(movieList));
+            if(Array.isArray(movieListfromBack)){
+                const movieList = transformMovieListFromBack(movieListfromBack);
+                dispatch(movieActions.setMovieListSuccess(movieList));
+            }else{
+                dispatch(movieActions.setMovieListFailure(movieListfromBack));
+            }
             dispatch(uiActions.setLoading(false));
         }catch (error){
             dispatch(movieActions.setMovieListFailure(error.message));
@@ -113,16 +117,40 @@ const getCurrentMovieFlow = ({api}) => ({dispatch, getState}) => next => async (
             const movieId = action.payload;
             const moviefromBack = await api.movie.getMovie(movieId);
             const movie = transformMovieFromBack(moviefromBack);
-            const listmovie = getState().movie.movies.filter(movie => movie.id=== movieId);
-            if(listmovie.length === 1){
+            const favoriteList = getState().movie.movies.filter(movie => movie.id === movieId);
+            const votedList = getState().movie.votedMovies.filter(movie => movie.id === movieId); //cambiar movie por id y ya no se usa movie.id
+            if(favoriteList.length === 1){
                 movie.isFavorite = true;
             } else{
                 movie.isFavorite = false;
             }
+
+            if(votedList.length === 1){
+                movie.isVoted = true;
+            } else{
+                movie.isVoted = false;
+            }
+
             dispatch(movieActions.setCurrentMovieSuccess(movie));
             dispatch(uiActions.setLoading(false));
         }catch (error){
             dispatch(movieActions.setCurrentMovieFailure(error.message));
+            dispatch(uiActions.setLoading(false));
+        }
+    }
+}
+
+const getVotedMoviesFlow = ({api}) => ({dispatch}) => next => async (action) => {
+    next(action);
+    if(action.type === movieActions.GET_VOTED_MOVIES){
+        try{
+            dispatch(uiActions.setLoading(true));
+            const userId = action.payload
+            const movieListfromBack = await api.movie.getVoted(userId);
+            const movieList = transformMovieListFromBack(movieListfromBack);//no necesario creo
+            dispatch(movieActions.setVotedMovieSuccess(movieList));
+        }catch (error){
+            dispatch(movieActions.setVotedMovieFailure(error.message));
             dispatch(uiActions.setLoading(false));
         }
     }
@@ -137,5 +165,6 @@ export default [
     getFavoriteMoviesFlow,
     deleteFavoriteMovieFlow,
     addFavoriteMovieFlow,
-    getCurrentMovieFlow
+    getCurrentMovieFlow,
+    getVotedMoviesFlow
 ]
