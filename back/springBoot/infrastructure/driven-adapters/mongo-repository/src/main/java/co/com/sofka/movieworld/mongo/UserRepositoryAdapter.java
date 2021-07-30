@@ -41,7 +41,7 @@ public class UserRepositoryAdapter extends AdapterOperations<UserEntity, UserEnt
 
     @Override
     public User findUserById(String id) {
-        Optional<UserEntity> userEntity = repository.findById(id);
+        Optional<UserEntity> userEntity = this.repository.findById(id);
         if(!userEntity.isPresent()){
             throw new IllegalArgumentException("usuario no existe ne la base de datos");
         }
@@ -50,7 +50,9 @@ public class UserRepositoryAdapter extends AdapterOperations<UserEntity, UserEnt
 
     @Override
     public User saveUser(User user) {
-        return null;
+        UserEntity userEntity = this.repository.save(new UserEntity(user.getId(), user.getNombre(), user.getCorreo().getValue(), user.getImage(), user.getIdFavorites(), user.getRate()));
+        user.setId(userEntity.getId());
+        return user;
     }
 
     @Override

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT})
 @RequestMapping(value = "/api", produces = MediaType.APPLICATION_JSON_VALUE)
 @AllArgsConstructor
 public class ApiRest {
@@ -67,23 +68,23 @@ public class ApiRest {
 
     @PostMapping(path = "/usercreate")
     public ResponseEntity<UserDTO> crearUser(@RequestBody UserDTO userDTO){
-        try{
-            User user = userMapper.dtoToUser(userDTO);
-            return new ResponseEntity<>(userMapper.userToDto(createUserUseCase.execute(user)),HttpStatus.OK);
-        }catch (Exception ex){
-            return new ResponseEntity<>(HttpStatus.BAD_GATEWAY);
-        }
+           try{
+               User user = userMapper.dtoToUser(userDTO);
+               return new ResponseEntity<>(userMapper.userToDto(createUserUseCase.execute(user)),HttpStatus.OK);
+           } catch (Exception ex){
+               return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+           }
+
+
 
     }
 
     @PutMapping(path = "/addfavorite/{idUser}/{idMovie}")
     public ResponseEntity<UserDTO> addFavoriteMovie(@PathVariable("idUser") String idUser, @PathVariable("idMovie") String idMovie){
-        try {
+
             User user = addFavoritesUseCase.execute(idUser, idMovie);
             return new ResponseEntity<>(userMapper.userToDto(user), HttpStatus.OK);
-        }catch (Exception ex){
-            return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
-        }
+
     }
 
     @PutMapping(path = "/voteMovie")
