@@ -1,14 +1,9 @@
 package co.com.sofka.movieworld.api;
+
 import co.com.sofka.movieworld.model.movie.Movie;
 import co.com.sofka.movieworld.model.user.User;
-import co.com.sofka.movieworld.usecase.movie.CreateMovieUseCase;
-import co.com.sofka.movieworld.usecase.movie.GetMovieByIdUseCase;
-import co.com.sofka.movieworld.usecase.movie.GetMoviesUseCase;
-import co.com.sofka.movieworld.usecase.movie.GetTopMoviesUseCase;
-import co.com.sofka.movieworld.usecase.user.AddFavoritesUseCase;
-import co.com.sofka.movieworld.usecase.user.CreateUserUseCase;
-import co.com.sofka.movieworld.usecase.user.RemoveFavoritesUseCase;
-import co.com.sofka.movieworld.usecase.user.VoteMovieUseCase;
+import co.com.sofka.movieworld.usecase.movie.*;
+import co.com.sofka.movieworld.usecase.user.*;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -16,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT})
@@ -34,6 +30,8 @@ public class ApiRest {
     private final AddFavoritesUseCase addFavoritesUseCase;
     private final VoteMovieUseCase voteMovieUseCase;
     private final RemoveFavoritesUseCase removeFavoritesUseCase;
+    private final GetMovieByCategoryUseCase getMovieByCategoryUseCase;
+    private final GetVotesUserUseCase getVotesUserUseCase;
 
 
     @PostMapping(path = "/createmovie")
@@ -41,66 +39,87 @@ public class ApiRest {
         try {
             Movie movie = movieMapper.dtoToMovie(movieDTO);
             return new ResponseEntity<>(movieMapper.movieToDto(createMovieUseCase.execute(movie)), HttpStatus.OK);
-        }catch (Exception ex){
+        } catch (Exception ex) {
             return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
         }
     }
 
     @GetMapping(path = "/movie/{id}")
-    public  ResponseEntity<MovieDTO> getMovie(@PathVariable("id") String id){
+    public ResponseEntity<MovieDTO> getMovie(@PathVariable("id") String id) {
         try {
             return new ResponseEntity<>(movieMapper.movieToDto(getMovieByIdUseCase.getMovieById(id)), HttpStatus.OK);
-        }catch(Exception ex){
+        } catch (Exception ex) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
     @GetMapping(path = "/listmovies")
-    public List<MovieDTO> listarMovies(){
+    public List<MovieDTO> listarMovies() {
         List<Movie> list = getMoviesUseCase.execute();
         return movieMapper.listMovieToDto(list);
     }
 
     @GetMapping(path = "/listtopmovies")
-    public List<MovieDTO> listarTopMovies(){
+    public List<MovieDTO> listarTopMovies() {
         List<Movie> list = topMoviesUseCase.execute();
         return movieMapper.listMovieToDto(list);
     }
 
     @PostMapping(path = "/usercreate")
-    public ResponseEntity<UserDTO> crearUser(@RequestBody UserDTO userDTO){
-           try{
-               User user = userMapper.dtoToUser(userDTO);
-               return new ResponseEntity<>(userMapper.userToDto(createUserUseCase.execute(user)),HttpStatus.OK);
-           } catch (Exception ex){
-               return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-           }
-
+    public ResponseEntity<UserDTO> crearUser(@RequestBody UserDTO userDTO) {
+        try {
+            User user = userMapper.dtoToUser(userDTO);
+            return new ResponseEntity<>(userMapper.userToDto(createUserUseCase.execute(user)), HttpStatus.OK);
+        } catch (Exception ex) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
 
 
     }
 
     @PutMapping(path = "/addfavorite/{idUser}/{idMovie}")
-    public ResponseEntity<UserDTO> addFavoriteMovie(@PathVariable("idUser") String idUser, @PathVariable("idMovie") String idMovie){
+    public ResponseEntity<UserDTO> addFavoriteMovie(@PathVariable("idUser") String idUser, @PathVariable("idMovie") String idMovie) {
 
-            User user = addFavoritesUseCase.execute(idUser, idMovie);
-            return new ResponseEntity<>(userMapper.userToDto(user), HttpStatus.OK);
+        User user = addFavoritesUseCase.execute(idUser, idMovie);
+        return new ResponseEntity<>(userMapper.userToDto(user), HttpStatus.OK);
 
     }
 
     @PutMapping(path = "/voteMovie")
-    public MovieDTO voteMovie(@RequestBody UserRateDTO userRateDTO){
+    public MovieDTO voteMovie(@RequestBody UserRateDTO userRateDTO) {
         Movie movie = voteMovieUseCase.execute(userRateMapper.dtoToUserRate(userRateDTO));
         return movieMapper.movieToDto(movie);
     }
 
     @PutMapping(path = "/removefavorite/{idUser}/{idMovie}")
-    public ResponseEntity<UserDTO> removeFavoriteMovie(@PathVariable("idUser") String idUser, @PathVariable("idMovie") String idMovie){
+    public ResponseEntity<UserDTO> removeFavoriteMovie(@PathVariable("idUser") String idUser, @PathVariable("idMovie") String idMovie) {
         try {
             User user = removeFavoritesUseCase.execute(idUser, idMovie);
             return new ResponseEntity<>(userMapper.userToDto(user), HttpStatus.OK);
-        }catch (Exception ex){
+        } catch (Exception ex) {
             return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
         }
+    }
+
+    @GetMapping(path = "/getmoviesbycategory/{id}")
+    public ResponseEntity<List<MovieDTO>> getMoviesByCategory(@PathVariable("id") String category) {
+        try {
+            List<Movie> movieList = getMovieByCategoryUseCase.execute(category);
+            return new ResponseEntity<>(movieMapper.listMovieToDto(movieList), HttpStatus.OK);
+
+        } catch (Exception ex) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping(path = "/getvotes/{id}")
+    public ResponseEntity<Set<String>> getFavoritesUser(@PathVariable("id") String id) {
+       try{
+           Set<String> list = getVotesUserUseCase.execute(id);
+           return new ResponseEntity<>(list, HttpStatus.OK);
+       }catch (Exception ex){
+           return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+       }
+
     }
 }

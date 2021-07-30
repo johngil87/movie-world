@@ -10,7 +10,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class GetMovieByCategoryUseCase {
 
-    private MovieRepository repository;
+    private final MovieRepository repository;
 
     public List<Movie> execute(String category){
         return repository.findAllByCategory(category);

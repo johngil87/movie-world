@@ -1,6 +1,7 @@
 package co.com.sofka.movieworld.mongo;
 
 import co.com.sofka.movieworld.model.user.User;
+import co.com.sofka.movieworld.model.user.UserRate;
 import co.com.sofka.movieworld.model.user.gateways.UserRepository;
 import co.com.sofka.movieworld.model.user.values.Email;
 import co.com.sofka.movieworld.mongo.entities.MovieEntity;
@@ -9,8 +10,11 @@ import co.com.sofka.movieworld.mongo.helper.AdapterOperations;
 import org.reactivecommons.utils.ObjectMapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Repository
 public class UserRepositoryAdapter extends AdapterOperations<UserEntity, UserEntity, String, UserDBRepository>
@@ -61,4 +65,10 @@ public class UserRepositoryAdapter extends AdapterOperations<UserEntity, UserEnt
         user.setId(this.repository.save(entity).getId());
         return user;
     }
+
+    @Override
+    public Set<String> listVotes(String idUser) {
+        return this.repository.findById(idUser).get().getRate().stream().map(UserRate::getIdMovie).collect(Collectors.toSet());
+    }
+
 }
