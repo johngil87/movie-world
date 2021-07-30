@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {bindActionCreators} from "redux";
-import {getCurrentMovie, addFavoriteMovie, getFavoriteMovies} from "../../application/actions/movie";
+import {getCurrentMovie, addFavoriteMovie, getFavoriteMovies, getVotedMovies} from "../../application/actions/movie";
 import { connect } from "react-redux";
 import {getUser} from "../../application/selectors/user";
 import {getLoading} from "../../application/selectors/ui";
@@ -9,16 +9,24 @@ import { useParams } from 'react-router-dom';
 
 
 
-const Movie = ({getCurrentMovie, addFavoriteMovie, getFavoriteMovies, user, movie, loading, error}) => {
+const Movie = ({getCurrentMovie, addFavoriteMovie, getFavoriteMovies, getVotedMovies, user, movie, loading, error}) => {
     const {movieId} = useParams()//jhon1
 
     useEffect(() => {
-        getFavoriteMovies(user, false);
+      getVotedMovies(user);
+      getFavoriteMovies(user, false);
+      setTimeout(() => {
         getCurrentMovie(movieId);
+      }, 1000);
+      
     }, [])
 
     const addMovie = (userId, movieId) => {//jhon1
         addFavoriteMovie(userId, movieId);
+    }
+
+    const vote = (userId, movieId) => {//jhon2
+      //voteByMovie(userId, movieId);
     }
 
     return (
@@ -41,6 +49,15 @@ const Movie = ({getCurrentMovie, addFavoriteMovie, getFavoriteMovies, user, movi
                           <i className="bi bi-google"/> Add to favorite
                         </button> 
                       }
+
+                      {movie.isVoted ? 
+                        null
+                      : 
+                        <button className="mt-5 btn btn-primary px-4" onClick={() => vote(user, movieId)}> 
+                          <i className="bi bi-google"/> votar
+                        </button> 
+                      }
+
                       <div>Title: {movie.title}</div>
                       <div>Rate: {movie.rate}</div>
                       <div>Director: {movie.director}</div>
@@ -65,7 +82,7 @@ const Movie = ({getCurrentMovie, addFavoriteMovie, getFavoriteMovies, user, movi
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({getCurrentMovie, addFavoriteMovie, getFavoriteMovies}, dispatch);
+  return bindActionCreators({getCurrentMovie, addFavoriteMovie, getFavoriteMovies, getVotedMovies}, dispatch);
 }
 
 const mapStateToProps = (state) => {

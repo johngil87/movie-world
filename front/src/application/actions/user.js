@@ -6,9 +6,9 @@ export const loginUser = () => ({
     type: LOGIN_USER
 });
 
-export const loginUserSuccess = userId => ({
+export const loginUserSuccess = (userId, userName, userImage) => ({
     type: LOGIN_USER_SUCCESS,
-    payload: userId
+    payload: {userId: userId, userName: userName, userImage: userImage}
 });
 
 export const loginUserFailure = error => ({

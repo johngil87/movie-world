@@ -7,6 +7,7 @@ export default {
             userName: userToBack.userName,
             userImage: userToBack.userImage 
         });
+        console.log(response.data)
         return response.data;
     }
 }
