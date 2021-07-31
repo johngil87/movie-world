@@ -173,6 +173,23 @@ const addFavoriteMovieFlow = ({api}) => ({dispatch}) => next => async (action) =
     }
 }
 
+const voteMovieFlow = ({api}) => ({dispatch}) => next => async (action) => { 
+    next(action);
+    if(action.type === movieActions.VOTE_MOVIE){
+        try{
+            dispatch(uiActions.setLoading(true));
+            const userId = action.payload.userId;
+            const movieId = action.payload.movieId;
+            const score = action.payload.score;
+            await api.movie.vote(userId, movieId, score);
+            dispatch(movieActions.voteMovieSuccess);
+            dispatch(uiActions.setLoading(false));
+        }catch (error){
+            dispatch(movieActions.voteMovieFailure(error.message));
+            dispatch(uiActions.setLoading(false));
+        }
+    }
+}
 
 export default [
     getMoviesWithoutFilterFlow,
