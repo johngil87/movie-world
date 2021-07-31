@@ -32,6 +32,7 @@ public class ApiRest {
     private final RemoveFavoritesUseCase removeFavoritesUseCase;
     private final GetMovieByCategoryUseCase getMovieByCategoryUseCase;
     private final GetVotesUserUseCase getVotesUserUseCase;
+    private final UpdateUserUseCase updateUserUseCase;
 
 
     @PostMapping(path = "/createmovie")
@@ -121,5 +122,15 @@ public class ApiRest {
            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
        }
 
+    }
+
+    @PatchMapping(path = "/updateuser")
+    public ResponseEntity<UserDTO> updateUser(@RequestBody UserDTO dto){
+        try{
+            User user = updateUserUseCase.execute(userMapper.dtoToUser(dto));
+            return new ResponseEntity<>(userMapper.userToDto(user),HttpStatus.OK);
+        }catch (Exception ex){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }
