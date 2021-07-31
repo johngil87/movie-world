@@ -1,4 +1,5 @@
 import {auth} from "../firebase";
+import {signInWithGoogle, logout} from "../auth";
 
 export default {
     getUser: () =>{
@@ -11,4 +12,7 @@ export default {
     authUserWithGoogle: ()=>{
         return signInWithGoogle();
     },
+    logout: ()=>{
+        return logout();
+    }
 }
