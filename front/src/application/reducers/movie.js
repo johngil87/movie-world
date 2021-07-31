@@ -30,6 +30,8 @@ const reducer = (state = initialState, action) => {
             return { ...state, error: action.payload, votedMovies: null };
         case actions.ADD_FAVORITE_MOVIE_FAILURE:
             return { ...state, error: action.payload };
+        case actions.VOTE_MOVIE_FAILURE:
+            return { ...state, error: action.payload };
         default:
             return state;
     }

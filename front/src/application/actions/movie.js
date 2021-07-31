@@ -122,3 +122,17 @@ export const addFavoriteMovieFailure = error => ({
     type: ADD_FAVORITE_MOVIE_FAILURE,
     payload: error
 });
+
+export const voteMovie = (userId, movieId, score) => ({
+    type: VOTE_MOVIE,
+    payload: {userId: userId, movieId: movieId, score: score}
+});
+
+export const voteMovieSuccess = () => ({ 
+    type: VOTE_MOVIE_SUCCESS
+});
+
+export const voteMovieFailure = error => ({ 
+    type: VOTE_MOVIE_FAILURE,
+    payload: error
+});
