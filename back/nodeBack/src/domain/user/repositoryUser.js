@@ -1,8 +1,8 @@
-class RepositoryMovie{
+class RepositoryUser{
 
-  async getUserFavorites(_id) {
+  async getUseById(_id) {
     throw new Error("metodo no implementado")
   }
 };
 
-module.exports = RepositoryMovie;
+module.exports = RepositoryUser;
