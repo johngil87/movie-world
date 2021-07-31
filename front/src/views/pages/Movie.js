@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {bindActionCreators} from "redux";
-import {getCurrentMovie, addFavoriteMovie, getFavoriteMovies, getVotedMovies} from "../../application/actions/movie";
+import {getCurrentMovie, addFavoriteMovie, getFavoriteMovies, getVotedMovies, voteMovie} from "../../application/actions/movie";
 import { connect } from "react-redux";
 import {getUser} from "../../application/selectors/user";
 import {getLoading} from "../../application/selectors/ui";
@@ -9,8 +9,8 @@ import { useParams } from 'react-router-dom';
 
 
 
-const Movie = ({getCurrentMovie, addFavoriteMovie, getFavoriteMovies, getVotedMovies, user, movie, loading, error}) => {
-    const {movieId} = useParams()//jhon1
+const Movie = ({getCurrentMovie, addFavoriteMovie, getFavoriteMovies, getVotedMovies, user, movie, loading, error, voteMovie}) => {
+    const {movieId} = useParams()
 
     useEffect(() => {
       getVotedMovies(user);
@@ -21,12 +21,12 @@ const Movie = ({getCurrentMovie, addFavoriteMovie, getFavoriteMovies, getVotedMo
       
     }, [])
 
-    const addMovie = (userId, movieId) => {//jhon1
+    const addMovie = (userId, movieId) => {
         addFavoriteMovie(userId, movieId);
     }
 
-    const vote = (userId, movieId) => {//jhon2
-      //voteByMovie(userId, movieId);
+    const vote = (userId, movieId, score) => {
+      voteMovie(userId, movieId, score);
     }
 
     return (
@@ -82,7 +82,7 @@ const Movie = ({getCurrentMovie, addFavoriteMovie, getFavoriteMovies, getVotedMo
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({getCurrentMovie, addFavoriteMovie, getFavoriteMovies, getVotedMovies}, dispatch);
+  return bindActionCreators({getCurrentMovie, addFavoriteMovie, getFavoriteMovies, getVotedMovies, voteMovie}, dispatch);
 }
 
 const mapStateToProps = (state) => {

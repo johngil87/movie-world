@@ -5,6 +5,6 @@ export function signInWithGoogle() {
     return auth().signInWithPopup(provider);
 }
 
-export function logout() {
+export function logout() { 
     return auth().signOut();
 }

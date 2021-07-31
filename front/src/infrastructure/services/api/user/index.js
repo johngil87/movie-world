@@ -7,7 +7,14 @@ export default {
             userName: userToBack.userName,
             userImage: userToBack.userImage 
         });
-        console.log(response.data)
-        return response.data;
+        return response.data; //ok
+    },
+    updateUser: async (userId, userName, userImage) => {
+        const response = await axios.patch('https://movieworld-back-spring.herokuapp.com/api/updateuser',{
+            id: userId,
+            userName: userName,
+            userImage: userImage 
+        });
+        return response.data; //ok
     }
 }

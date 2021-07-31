@@ -12,15 +12,18 @@ export const DELETE_FAVORITE_MOVIE = 'DELETE_FAVORITE_MOVIE';
 export const DELETE_FAVORITE_MOVIE_SUCCESS = 'DELETE_MOVIE_SUCCESS';
 export const DELETE_FAVORITE_MOVIE_FAILURE = 'DELETE_MOVIE_FAILURE';
 export const ADD_FAVORITE_MOVIE = 'ADD_FAVORITE_MOVIE';
+export const ADD_FAVORITE_MOVIE_SUCCESS = 'ADD_MOVIE_SUCCESS';
+export const ADD_FAVORITE_MOVIE_FAILURE = 'ADD_MOVIE_FAILURE';
 export const GET_CURRENT_MOVIE = 'GET_CURRENT_MOVIE';
 export const SET_CURRENT_MOVIE_SUCCESS = 'SET_CURRENT_MOVIE_SUCCESS';
 export const SET_CURRENT_MOVIE_FAILURE = 'SET_CURRENT_MOVIE_FAILURE';
 export const GET_VOTED_MOVIES = 'GET_VOTED_MOVIES';
 export const SET_VOTED_MOVIES_SUCCESS = 'SET_VOTED_MOVIES_SUCCESS';
 export const SET_VOTED_MOVIES_FAILURE = 'SET_VOTED_MOVIES_FAILURE';
-export const ADD_FAVORITE_MOVIE_SUCCESS = 'ADD_MOVIE_SUCCESS';
-export const ADD_FAVORITE_MOVIE_FAILURE = 'ADD_MOVIE_FAILURE';
-export const GET_CURRENT_MOVIE = 'GET_CURRENT_MOVIE';
+export const VOTE_MOVIE = 'VOTE_MOVIE';
+export const VOTE_MOVIE_SUCCESS = 'VOTE_MOVIE_SUCCESS';
+export const VOTE_MOVIE_FAILURE = 'VOTE_MOVIE_FAILURE';
+
 
 export const getMoviesWithoutFilter = () => ({
     type: GET_MOVIES_WITHOUT_FILTER,
@@ -79,6 +82,20 @@ export const deleteFavoriteMovieFailure = error => ({
     payload: error
 });
 
+export const addFavoriteMovie = (userId, movieId) => ({
+    type: ADD_FAVORITE_MOVIE,
+    payload: {userId: userId, movieId: movieId}
+});
+
+export const addFavoriteMovieSuccess = () => ({
+    type: ADD_FAVORITE_MOVIE_SUCCESS
+});
+
+export const addFavoriteMovieFailure = error => ({
+    type: ADD_FAVORITE_MOVIE_FAILURE,
+    payload: error
+});
+
 export const getCurrentMovie = (movieId) => ({
     type: GET_CURRENT_MOVIE,
     payload: movieId
@@ -99,31 +116,17 @@ export const getVotedMovies = userId => ({
     payload: userId
 });
 
-export const setVotedMovieSuccess = movieList => ({
+export const setVotedMoviesSuccess = movieList => ({
     type: SET_VOTED_MOVIES_SUCCESS,
     payload: movieList
 });
 
-export const setVotedMovieFailure = error => ({
+export const setVotedMoviesFailure = error => ({
     type: SET_VOTED_MOVIES_FAILURE,
     payload: error
 });
 
-export const addFavoriteMovie = (userId, movieId) => ({
-    type: ADD_FAVORITE_MOVIE,
-    payload: {userId: userId, movieId: movieId}
-});
-
-export const addFavoriteMovieSuccess = () => ({
-    type: ADD_FAVORITE_MOVIE_SUCCESS
-});
-
-export const addFavoriteMovieFailure = error => ({
-    type: ADD_FAVORITE_MOVIE_FAILURE,
-    payload: error
-});
-
-export const voteMovie = (userId, movieId, score) => ({
+export const voteMovie = (userId, movieId, score) => ({ 
     type: VOTE_MOVIE,
     payload: {userId: userId, movieId: movieId, score: score}
 });
@@ -136,3 +139,4 @@ export const voteMovieFailure = error => ({
     type: VOTE_MOVIE_FAILURE,
     payload: error
 });
+
