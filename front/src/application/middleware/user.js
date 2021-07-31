@@ -27,6 +27,19 @@ const loginUserFlow = ({firebase, api}) => ({dispatch}) => next => async (action
     }
 }
 
+const logoutUserFlow = ({firebase}) => ({dispatch}) => next => async (action) => {
+    next(action);
+    if(action.type === LOGOUT_USER){
+        try{
+            await firebase.user.logout()
+            localStorage.removeItem('userId');
+            dispatch(logoutSuccess(null));
+        }catch (error){
+            console.log(error)
+        }
+    }
+}
+
 export default [
     loginUserFlow,
     logoutUserFlow

@@ -13,6 +13,8 @@ const reducer = (state = initialState, action) => {
             return {userId: action.payload.userId, userName: action.payload.userName, userImage: action.payload.userImage , error: null };
         case LOGIN_USER_FAILURE:
             return { userId: null, userName: null, userImage: null, error: action.payload };
+        case LOGOUT_SUCCESS:
+            return { userId: null, userName: null, userImage: null, error: null };
         default:
             return state;
     }
