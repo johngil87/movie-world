@@ -4,7 +4,7 @@ import co.com.sofka.movieworld.model.movie.Movie;
 import co.com.sofka.movieworld.model.movie.gateways.MovieRepository;
 import co.com.sofka.movieworld.model.movie.values.Name;
 import co.com.sofka.movieworld.model.movie.values.Score;
-import co.com.sofka.movieworld.mongo.entities.MovieEntity;
+import co.com.sofka.movieworld.mongo.entities.Movies;
 import co.com.sofka.movieworld.mongo.helper.AdapterOperations;
 import org.reactivecommons.utils.ObjectMapper;
 import org.springframework.stereotype.Repository;
@@ -16,7 +16,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Repository
-public class MovieRepositoryAdapter extends AdapterOperations<MovieEntity, MovieEntity, String, MovieDBRepository>
+public class MovieRepositoryAdapter extends AdapterOperations<Movies, Movies, String, MovieDBRepository>
         implements MovieRepository {
 
     public MovieRepositoryAdapter(MovieDBRepository repository, ObjectMapper mapper) {
@@ -25,16 +25,16 @@ public class MovieRepositoryAdapter extends AdapterOperations<MovieEntity, Movie
          *  super(repository, mapper, d -> mapper.mapBuilder(d,ObjectModel.ObjectModelBuilder.class).build());
          *  Or using mapper.map with the class of the object model
          */
-        super(repository, mapper, d -> mapper.map(d, MovieEntity.class));
+        super(repository, mapper, d -> mapper.map(d, Movies.class));
     }
 
     @Override
     public List<Movie> findAllMovie() {
         List<Movie> movieList = new ArrayList<>();
-        List<MovieEntity> list = this.repository.findAll();
+        List<Movies> list = this.repository.findAll();
         Movie movie;
         for (int i = 0; i < list.size(); i++) {
-            movie = new Movie(list.get(i).getId(), list.get(i).getDirector(), list.get(i).getCategoria(), list.get(i).getActores(), new Name(list.get(i).getTitulo()), new Score(list.get(i).getPuntaje()), list.get(i).getUrlTrailer(), list.get(i).getUrlImagen(), list.get(i).getResumen());
+            movie = new Movie(list.get(i).getId(), list.get(i).getMovieDirector(), list.get(i).getCategory(), list.get(i).getCharacters(), new Name(list.get(i).getTitle()), new Score(list.get(i).getRate()), list.get(i).getUrlTrailer(), list.get(i).getUrlImage(), list.get(i).getPlot());
             movieList.add(movie);
         }
         return movieList;
@@ -43,9 +43,9 @@ public class MovieRepositoryAdapter extends AdapterOperations<MovieEntity, Movie
     @Override
     public List<Movie> findAllMovieTop() {
         List<Movie> movieList = new ArrayList<>();
-        List<MovieEntity> list = this.repository.findByPuntajeGreaterThanOrderByPuntajeDesc(94.0);
+        List<Movies> list = this.repository.findByRateGreaterThanOrderByRateDesc(89.0);
         for (int i=0; i<list.size(); i++ ){
-            Movie movie = new Movie(list.get(i).getId(), list.get(i).getDirector(), list.get(i).getCategoria(), list.get(i).getActores(), new Name(list.get(i).getTitulo()), new Score(list.get(i).getPuntaje()), list.get(i).getUrlTrailer(), list.get(i).getUrlImagen(), list.get(i).getResumen());
+            Movie movie = new Movie(list.get(i).getId(), list.get(i).getMovieDirector(), list.get(i).getCategory(), list.get(i).getCharacters(), new Name(list.get(i).getTitle()), new Score(list.get(i).getRate()), list.get(i).getUrlTrailer(), list.get(i).getUrlImage(), list.get(i).getPlot());
             movieList.add(movie);
         }
         return movieList;
@@ -53,14 +53,14 @@ public class MovieRepositoryAdapter extends AdapterOperations<MovieEntity, Movie
 
     @Override
     public Movie findMovieById(String id) {
-        Optional<MovieEntity> entity = this.repository.findById(id);
-        return new Movie(entity.get().getId(), entity.get().getDirector(), entity.get().getCategoria(), entity.get().getActores(), new Name(entity.get().getTitulo()), new Score(entity.get().getPuntaje()), entity.get().getUrlTrailer(), entity.get().getUrlImagen(), entity.get().getResumen());
+        Optional<Movies> entity = this.repository.findById(id);
+        return new Movie(entity.get().getId(), entity.get().getMovieDirector(), entity.get().getCategory(), entity.get().getCharacters(), new Name(entity.get().getTitle()), new Score(entity.get().getRate()), entity.get().getUrlTrailer(), entity.get().getUrlImage(), entity.get().getPlot());
     }
 
     @Override
     public Movie saveMovie(Movie movie) {
-        MovieEntity movieE = new MovieEntity(movie.getId(), movie.getTitleMovie().getValue(), movie.getCharacter(), movie.getDirector(), movie.getPuntaje().getValue(), movie.getCategory(), movie.getUrlTrailer(), movie.getUrlImage(), movie.getPlot());
-        MovieEntity newMovieEntity = this.repository.save(movieE);
+        Movies movieE = new Movies(movie.getId(), movie.getTitleMovie().getValue(), movie.getCharacter(), movie.getDirector(), movie.getPuntaje().getValue(), movie.getCategory(), movie.getUrlTrailer(), movie.getUrlImage(), movie.getPlot());
+        Movies newMovieEntity = this.repository.save(movieE);
         Movie movieA = movie;
         movieA.setId(newMovieEntity.getId());
         return movieA;
@@ -69,17 +69,17 @@ public class MovieRepositoryAdapter extends AdapterOperations<MovieEntity, Movie
     @Override
     public List<Movie> findAllByCategory(String category) {
         List<Movie> movieList = new ArrayList<>();
-        List<MovieEntity> list = this.repository.findAll().stream().filter(filterByCategory(category)).collect(Collectors.toList());
+        List<Movies> list = this.repository.findAll().stream().filter(filterByCategory(category)).collect(Collectors.toList());
         for (int i=0; i<list.size(); i++ ){
-            Movie movie = new Movie(list.get(i).getId(), list.get(i).getDirector(), list.get(i).getCategoria(), list.get(i).getActores(), new Name(list.get(i).getTitulo()), new Score(list.get(i).getPuntaje()), list.get(i).getUrlTrailer(), list.get(i).getUrlImagen(), list.get(i).getResumen());
+            Movie movie = new Movie(list.get(i).getId(), list.get(i).getMovieDirector(), list.get(i).getCategory(), list.get(i).getCharacters(), new Name(list.get(i).getTitle()), new Score(list.get(i).getRate()), list.get(i).getUrlTrailer(), list.get(i).getUrlImage(), list.get(i).getPlot());
             movieList.add(movie);
         }
         return movieList;
     }
 
-   private Predicate<MovieEntity> filterByCategory(String category){
-        return (MovieEntity movie)->{
-            return movie.getCategoria().stream().map(it-> it.getNombre().getValue()).collect(Collectors.joining()).equals(category);
+   private Predicate<Movies> filterByCategory(String category){
+        return (Movies movie)->{
+            return movie.getCategory().stream().map(it-> it.getNombre().getValue()).collect(Collectors.joining()).equals(category);
         };
    }
 
