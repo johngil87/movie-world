@@ -18,7 +18,9 @@ export const SET_CURRENT_MOVIE_FAILURE = 'SET_CURRENT_MOVIE_FAILURE';
 export const GET_VOTED_MOVIES = 'GET_VOTED_MOVIES';
 export const SET_VOTED_MOVIES_SUCCESS = 'SET_VOTED_MOVIES_SUCCESS';
 export const SET_VOTED_MOVIES_FAILURE = 'SET_VOTED_MOVIES_FAILURE';
-
+export const ADD_FAVORITE_MOVIE_SUCCESS = 'ADD_MOVIE_SUCCESS';
+export const ADD_FAVORITE_MOVIE_FAILURE = 'ADD_MOVIE_FAILURE';
+export const GET_CURRENT_MOVIE = 'GET_CURRENT_MOVIE';
 
 export const getMoviesWithoutFilter = () => ({
     type: GET_MOVIES_WITHOUT_FILTER,
@@ -107,3 +109,16 @@ export const setVotedMovieFailure = error => ({
     payload: error
 });
 
+export const addFavoriteMovie = (userId, movieId) => ({
+    type: ADD_FAVORITE_MOVIE,
+    payload: {userId: userId, movieId: movieId}
+});
+
+export const addFavoriteMovieSuccess = () => ({
+    type: ADD_FAVORITE_MOVIE_SUCCESS
+});
+
+export const addFavoriteMovieFailure = error => ({
+    type: ADD_FAVORITE_MOVIE_FAILURE,
+    payload: error
+});
