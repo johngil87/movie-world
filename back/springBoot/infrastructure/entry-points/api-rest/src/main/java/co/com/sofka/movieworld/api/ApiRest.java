@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Set;
 
 @RestController
-@CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT})
+@CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.PATCH})
 @RequestMapping(value = "/api", produces = MediaType.APPLICATION_JSON_VALUE)
 @AllArgsConstructor
 public class ApiRest {
@@ -115,12 +115,10 @@ public class ApiRest {
 
     @GetMapping(path = "/getvotes/{id}")
     public ResponseEntity<Set<String>> getFavoritesUser(@PathVariable("id") String id) {
-       try{
+
            Set<String> list = getVotesUserUseCase.execute(id);
            return new ResponseEntity<>(list, HttpStatus.OK);
-       }catch (Exception ex){
-           return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-       }
+
 
     }
 

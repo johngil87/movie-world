@@ -1,9 +1,9 @@
 package co.com.sofka.movieworld.mongo;
 
-import co.com.sofka.movieworld.mongo.entities.UserEntity;
+import co.com.sofka.movieworld.mongo.entities.Users;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.repository.query.QueryByExampleExecutor;
 
-public interface UserDBRepository extends MongoRepository<UserEntity, String>, QueryByExampleExecutor<UserEntity> {
-    UserEntity findUserEntityByCorreo(String correo);
+public interface UserDBRepository extends MongoRepository<Users, String>, QueryByExampleExecutor<Users> {
+    Users findUserEntityByCorreo(String correo);
 }

@@ -9,7 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.Set;
 
 @Document
-public class UserEntity {
+public class Users {
 
     @Id
     private String id;
@@ -19,7 +19,7 @@ public class UserEntity {
     private Set<String> idFavorites;
     private Set<UserRate>  rate;
 
-    public UserEntity(String id, Name nombre, String correo, UrlResource image, Set<String> idFavorites, Set<UserRate> rate) {
+    public Users(String id, Name nombre, String correo, UrlResource image, Set<String> idFavorites, Set<UserRate> rate) {
         this.id = id;
         this.nombre = nombre;
         this.correo = correo;
@@ -28,7 +28,7 @@ public class UserEntity {
         this.rate = rate;
     }
 
-    public UserEntity(Name nombre, String correo, UrlResource image, Set<String> idFavorites, Set<UserRate> rate) {
+    public Users(Name nombre, String correo, UrlResource image, Set<String> idFavorites, Set<UserRate> rate) {
         this.nombre = nombre;
         this.correo = correo;
         this.image = image;
@@ -36,7 +36,7 @@ public class UserEntity {
         this.rate = rate;
     }
 
-    public UserEntity() {
+    public Users() {
     }
 
     public String getId() {

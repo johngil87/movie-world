@@ -4,17 +4,18 @@ import co.com.sofka.movieworld.model.user.User;
 import co.com.sofka.movieworld.model.user.UserRate;
 import co.com.sofka.movieworld.model.user.gateways.UserRepository;
 import co.com.sofka.movieworld.model.user.values.Email;
-import co.com.sofka.movieworld.mongo.entities.UserEntity;
+import co.com.sofka.movieworld.mongo.entities.Users;
 import co.com.sofka.movieworld.mongo.helper.AdapterOperations;
 import org.reactivecommons.utils.ObjectMapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @Repository
-public class UserRepositoryAdapter extends AdapterOperations<UserEntity, UserEntity, String, UserDBRepository>
+public class UserRepositoryAdapter extends AdapterOperations<Users, Users, String, UserDBRepository>
         implements UserRepository {
     public UserRepositoryAdapter(UserDBRepository repository, ObjectMapper mapper) {
         /**
@@ -22,15 +23,15 @@ public class UserRepositoryAdapter extends AdapterOperations<UserEntity, UserEnt
          *  super(repository, mapper, d -> mapper.mapBuilder(d,ObjectModel.ObjectModelBuilder.class).build());
          *  Or using mapper.map with the class of the object model
          */
-        super(repository, mapper, d -> mapper.map(d, UserEntity.class));
+        super(repository, mapper, d -> mapper.map(d, Users.class));
     }
 
     @Override
     public User loginUser(User user) {
-        UserEntity entity = this.repository.findUserEntityByCorreo(user.getCorreo().getValue());
+        Users entity = this.repository.findUserEntityByCorreo(user.getCorreo().getValue());
         if(entity == null){
-            UserEntity userEntity = new UserEntity( user.getNombre(), user.getCorreo().getValue(), user.getImage(), user.getIdFavorites(), user.getRate());
-            UserEntity newEntity = this.repository.save(userEntity);
+            Users users = new Users( user.getNombre(), user.getCorreo().getValue(), user.getImage(), user.getIdFavorites(), user.getRate());
+            Users newEntity = this.repository.save(users);
             user.setId(newEntity.getId());
             return user;
         }
@@ -42,7 +43,7 @@ public class UserRepositoryAdapter extends AdapterOperations<UserEntity, UserEnt
 
     @Override
     public User findUserById(String id) {
-        Optional<UserEntity> userEntity = this.repository.findById(id);
+        Optional<Users> userEntity = this.repository.findById(id);
         if(!userEntity.isPresent()){
             throw new IllegalArgumentException("usuario no existe ne la base de datos");
         }
@@ -51,21 +52,25 @@ public class UserRepositoryAdapter extends AdapterOperations<UserEntity, UserEnt
 
     @Override
     public User saveUser(User user) {
-        UserEntity userEntity = this.repository.save(new UserEntity(user.getId(), user.getNombre(), user.getCorreo().getValue(), user.getImage(), user.getIdFavorites(), user.getRate()));
-        user.setId(userEntity.getId());
+        Users users = this.repository.save(new Users(user.getId(), user.getNombre(), user.getCorreo().getValue(), user.getImage(), user.getIdFavorites(), user.getRate()));
+        user.setId(users.getId());
         return user;
     }
 
     @Override
     public User changeFavorites(User user) {
-        UserEntity entity = new UserEntity(user.getId(), user.getNombre(), user.getCorreo().getValue(), user.getImage(), user.getIdFavorites(), user.getRate());
+        Users entity = new Users(user.getId(), user.getNombre(), user.getCorreo().getValue(), user.getImage(), user.getIdFavorites(), user.getRate());
         user.setId(this.repository.save(entity).getId());
         return user;
     }
 
     @Override
     public Set<String> listVotes(String idUser) {
-        return this.repository.findById(idUser).get().getRate().stream().map(UserRate::getIdMovie).collect(Collectors.toSet());
+        Optional<Users> user=this.repository.findById(idUser);
+        if(user.isPresent() && user.get().getRate() != null){
+            return user.get().getRate().stream().map(UserRate::getIdMovie).collect(Collectors.toSet());
+        }
+        return  new HashSet<>();
     }
 
 }
