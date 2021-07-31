@@ -1,13 +1,21 @@
 import React from 'react';
 import { Link } from "react-router-dom";
 import {bindActionCreators} from "redux";
-import {logoutUser} from "../../application/actions/user"; 
+import {logoutUser, updateUser} from "../../application/actions/user"; 
 import {connect} from "react-redux";
 import {getUser} from "../../application/selectors/user";
+import { useForm } from "react-hook-form";
 
 
-const Header = ({logoutUser, user}) => {
+const Header = ({logoutUser, updateUser, user}) => {
+  const { register, handleSubmit } = useForm();
+
+  const onSubmit = async (data) => {
+    updateUser(user, data.nombre, data.imagen)
+  };
+
   return(
+    <div>
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark mb-5">
       <div className="container">
         <Link to="/" className="navbar-brand">Movie World</Link>
@@ -28,11 +36,25 @@ const Header = ({logoutUser, user}) => {
         </div>
       </div>
     </nav>
+
+    <form className="form-inline" onSubmit={handleSubmit(onSubmit)}>
+      <div className="form-group">
+        <label htmlFor="title">Nombre:</label>
+        <input className="form-control" type="text" placeholder="Nombre" name="nombre" id="nombre" {...register("nombre")}></input>
+      </div>
+      <div className="form-group">
+        <label htmlFor="imagen">Imagen:</label>
+        <input className="form-control" type="text" placeholder="Imagen" name="imagen" id="imagen" {...register("imagen")}></input>
+      </div>
+      <button className="btn btn-success" type="submit">Modificar</button>
+    </form>
+
+    </div>
   )
 }
 
 const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({logoutUser}, dispatch); 
+  return bindActionCreators({logoutUser, updateUser}, dispatch); 
 }
 
 const mapStateToProps = (state) => {

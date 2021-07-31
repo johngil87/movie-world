@@ -40,7 +40,7 @@ const getMoviesByTitleFlow = ({api}) => ({dispatch}) => next => async (action) =
     if(action.type === movieActions.GET_MOVIES_BY_TITLE){
         try{
             dispatch(uiActions.setLoading(true));
-            const title = action.payload;
+            const title = action.payload;  
             const movieListfromBack = await api.movie.getByTitle(title);
             if(Array.isArray(movieListfromBack)){
                 const movieList = transformMovieListFromBack(movieListfromBack);
@@ -109,6 +109,23 @@ const deleteFavoriteMovieFlow = ({api}) => ({dispatch}) => next => async (action
     }
 }
 
+const addFavoriteMovieFlow = ({api}) => ({dispatch}) => next => async (action) => {
+    next(action);
+    if(action.type === movieActions.ADD_FAVORITE_MOVIE){
+        try{
+            dispatch(uiActions.setLoading(true));
+            const userId = action.payload.userId;
+            const movieId = action.payload.movieId;
+            await api.movie.addFavorite(userId, movieId);
+            dispatch(movieActions.addFavoriteMovieSuccess());
+            dispatch(uiActions.setLoading(false));
+        }catch (error){
+            dispatch(movieActions.addFavoriteMovieFailure(error.message));
+            dispatch(uiActions.setLoading(false));
+        }
+    }
+}
+
 const getCurrentMovieFlow = ({api}) => ({dispatch, getState}) => next => async (action) => {
     next(action);
     if(action.type === movieActions.GET_CURRENT_MOVIE){
@@ -148,26 +165,9 @@ const getVotedMoviesFlow = ({api}) => ({dispatch}) => next => async (action) => 
             const userId = action.payload
             const movieListfromBack = await api.movie.getVoted(userId);
             const movieList = transformMovieListFromBack(movieListfromBack);//no necesario creo
-            dispatch(movieActions.setVotedMovieSuccess(movieList));
+            dispatch(movieActions.setVotedMoviesSuccess(movieList));
         }catch (error){
-            dispatch(movieActions.setVotedMovieFailure(error.message));
-            dispatch(uiActions.setLoading(false));
-        }
-    }
-}
-
-const addFavoriteMovieFlow = ({api}) => ({dispatch}) => next => async (action) => {
-    next(action);
-    if(action.type === movieActions.ADD_FAVORITE_MOVIE){
-        try{
-            dispatch(uiActions.setLoading(true));
-            const userId = action.payload.userId;
-            const movieId = action.payload.movieId;
-            await api.movie.addFavorite(userId, movieId);
-            dispatch(movieActions.addFavoriteMovieSuccess());
-            dispatch(uiActions.setLoading(false));
-        }catch (error){
-            dispatch(movieActions.addFavoriteMovieFailure(error.message));
+            dispatch(movieActions.setVotedMoviesFailure(error.message));
             dispatch(uiActions.setLoading(false));
         }
     }
@@ -191,6 +191,7 @@ const voteMovieFlow = ({api}) => ({dispatch}) => next => async (action) => {
     }
 }
 
+
 export default [
     getMoviesWithoutFilterFlow,
     getTopMoviesFlow,
@@ -200,5 +201,6 @@ export default [
     deleteFavoriteMovieFlow,
     addFavoriteMovieFlow,
     getCurrentMovieFlow,
-    getVotedMoviesFlow
+    getVotedMoviesFlow,
+    voteMovieFlow
 ]
