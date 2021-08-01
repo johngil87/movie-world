@@ -38,6 +38,8 @@ public class UserRepositoryAdapter extends AdapterOperations<Users, Users, Strin
         user.setId(entity.getId());
         user.setIdFavorites(entity.getIdFavorites());
         user.setRate(entity.getRate());
+        user.setNombre(entity.getNombre());
+        user.setImage(entity.getImage());
         return user;
     }
 
