@@ -10,7 +10,7 @@ import java.util.Set;
 
 public class MovieDTO {
 
-    private String _id;
+    private String id;
     private String title;
     private Double rate;
     private Director movieDirector;
@@ -21,7 +21,7 @@ public class MovieDTO {
     private PlotMovie plot;
 
     public MovieDTO(String id, String title, Double rate, Director movieDirector, Set<Character> characters, Set<Category> category, UrlResource urlTrailer, UrlResource urlImage, PlotMovie plot) {
-        this._id = id;
+        this.id = id;
         this.title = title;
         this.rate = rate;
         this.movieDirector = movieDirector;
@@ -47,11 +47,11 @@ public class MovieDTO {
     }
 
     public String getId() {
-        return _id;
+        return id;
     }
 
     public void setId(String id) {
-        this._id = id;
+        this.id = id;
     }
 
     public String getTitle() {
