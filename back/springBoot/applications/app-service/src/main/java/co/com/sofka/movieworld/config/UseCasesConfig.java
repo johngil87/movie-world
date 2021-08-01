@@ -4,7 +4,6 @@ import co.com.sofka.movieworld.model.movie.gateways.MovieRepository;
 import co.com.sofka.movieworld.model.user.gateways.RateRepository;
 import co.com.sofka.movieworld.model.user.gateways.UserRepository;
 import co.com.sofka.movieworld.usecase.movie.CreateMovieUseCase;
-import co.com.sofka.movieworld.usecase.movie.GetMovieByIdUseCase;
 import co.com.sofka.movieworld.usecase.user.CreateUserUseCase;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;

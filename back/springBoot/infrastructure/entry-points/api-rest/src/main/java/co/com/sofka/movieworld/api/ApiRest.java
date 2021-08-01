@@ -23,7 +23,6 @@ public class ApiRest {
     private final UserMapper userMapper;
     private final UserRateMapper userRateMapper;
     private final CreateMovieUseCase createMovieUseCase;
-    private final GetMovieByIdUseCase getMovieByIdUseCase;
     private final GetMoviesUseCase getMoviesUseCase;
     private final GetTopMoviesUseCase topMoviesUseCase;
     private final CreateUserUseCase createUserUseCase;
@@ -42,15 +41,6 @@ public class ApiRest {
             Movie movie = movieMapper.dtoToMovie(movieDTO);
             return new ResponseEntity<>(movieMapper.movieToDto(createMovieUseCase.execute(movie)), HttpStatus.OK);
 
-    }
-
-    @GetMapping(path = "/movie/{id}")
-    public ResponseEntity<MovieDTO> getMovie(@PathVariable("id") String id) {
-        try {
-            return new ResponseEntity<>(movieMapper.movieToDto(getMovieByIdUseCase.getMovieById(id)), HttpStatus.OK);
-        } catch (Exception ex) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
     }
 
     @GetMapping(path = "/listmovies")

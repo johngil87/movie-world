@@ -16,6 +16,10 @@ public class CreateMovieUseCase {
     private final RateRepository rateRepository;
 
     public Movie execute(Movie movie){
+        if(movie.getTitleMovie().getValue().isEmpty()){
+            throw new IllegalArgumentException("el nombre de la pelicula es obligatorio");
+        }
+
         Movie newMovie = repository.saveMovie(movie);
         Rate rate = new Rate(newMovie.getId(), new ArrayList<>() , 0.0);
         rateRepository.setRate(rate);
