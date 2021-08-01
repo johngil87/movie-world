@@ -7,9 +7,9 @@ export const transformMovieListFromBack = (movieListfromBack) =>{
         });
 
         const currentMovie = {
-            id: movie._id,
+            id: (movie.id || movie._id),
             title: movie.title, 
-            rate: movie.rate,
+            rate: Math.round(movie.rate),
             director:movie.movieDirector.nombre,
             actors: arrayActors,
             category: movie.category[0].nombre.value,

@@ -4,12 +4,21 @@ import {loginUser} from "../../application/actions/user";
 import {setLoading} from "../../application/actions/ui";
 import {connect} from "react-redux";
 import {getLoading} from "../../application/selectors/ui";
+import {getUser} from "../../application/selectors/user";
+import {getRedirecting} from "../../application/selectors/ui";
+import { Redirect } from "react-router-dom";
 
 
-const Home = ({loginUser, loading, setLoading}) => {
+
+const Home = ({loginUser, loading, setLoading, user, redirecting}) => {
+
     useEffect(() => {
         setLoading(false);
     }, []) 
+
+    if (redirecting) {
+        return <Redirect to="/movies" />
+    }
     
     const loginWithGoogleUser = () => {
         loginUser();
@@ -32,7 +41,7 @@ const Home = ({loginUser, loading, setLoading}) => {
                             <h4 className={"color-black mt-5"}>
                               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris volutpat eget nibh eu tristique. Vestibulum suscipit odio ac rhoncus.
                             </h4>
-                            <button className="mt-5 btn btn-primary px-4" onClick={loginWithGoogleUser}>
+                            <button className={user ? "d-none": "mt-5 btn btn-primary px-4"} onClick={loginWithGoogleUser}>
                                <i className="bi bi-google"/> Log in with Google
                             </button>
                             <br/><br/>
@@ -49,7 +58,9 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (state) => {
     return {
-        loading: getLoading(state)
+        loading: getLoading(state),
+        user: getUser(state),
+        redirecting: getRedirecting(state)
     }
 }
 

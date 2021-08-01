@@ -8,29 +8,26 @@ import {getMovie, getError} from "../../application/selectors/movie";
 import { useParams } from 'react-router-dom';
 
 
-
-const Movie = ({getCurrentMovie, addFavoriteMovie, getFavoriteMovies, getVotedMovies, user, movie, loading, error, voteMovie}) => {
+const Movie = ({addFavoriteMovie, getFavoriteMovies, getVotedMovies, getCurrentMovie, user, movie, loading, error, voteMovie}) => {
     const {movieId} = useParams()
 
     useEffect(() => {
-      getVotedMovies(user);
       getFavoriteMovies(user, false);
+      getVotedMovies(user);
       setTimeout(() => {
         getCurrentMovie(movieId);
       }, 1000);
-      
-    }, [])
+    }, [addFavoriteMovie, voteMovie])
 
     const addMovie = (userId, movieId) => {
         addFavoriteMovie(userId, movieId);
     }
-
+    
     const vote = (userId, movieId, score) => {
-      voteMovie(userId, movieId, score);
+      voteMovie(userId, movieId, parseFloat(score));
     }
 
     return (
-        //jhon1
         <div className="container">
             {loading ?
                 <div className="spinner-border text-success" role="status">
@@ -53,7 +50,7 @@ const Movie = ({getCurrentMovie, addFavoriteMovie, getFavoriteMovies, getVotedMo
                       {movie.isVoted ? 
                         null
                       : 
-                        <button className="mt-5 btn btn-primary px-4" onClick={() => vote(user, movieId)}> 
+                        <button className="mt-5 btn btn-primary px-4" onClick={() => vote(user, movieId, "3.01")}> 
                           <i className="bi bi-google"/> votar
                         </button> 
                       }

@@ -11,7 +11,6 @@ const getMoviesWithoutFilterFlow = ({api}) => ({dispatch}) => next => async (act
             const movieListfromBack = await api.movie.getAll();
             const movieList = transformMovieListFromBack(movieListfromBack);
             dispatch(movieActions.setMovieListSuccess(movieList));
-            dispatch(uiActions.setLoading(false));
         }catch (error){
             dispatch(movieActions.setMovieListFailure(error.message));
             dispatch(uiActions.setLoading(false));
@@ -23,7 +22,6 @@ const getTopMoviesFlow = ({api}) => ({dispatch}) => next => async (action) => {
     next(action);
     if(action.type === movieActions.GET_TOP_MOVIES){
         try{
-            dispatch(uiActions.setLoading(true));
             const movieListfromBack = await api.movie.getTop();
             const movieList = transformMovieListFromBack(movieListfromBack);
             dispatch(movieActions.setTopMovieListSuccess(movieList));
@@ -101,7 +99,7 @@ const deleteFavoriteMovieFlow = ({api}) => ({dispatch}) => next => async (action
             const movieId = action.payload.movieId;
             await api.movie.deleteFavorite(userId, movieId);
             dispatch(movieActions.deleteFavoriteMovieSuccess());
-            dispatch(uiActions.setLoading(false));
+            dispatch(movieActions.getFavoriteMovies(userId, true));
         }catch (error){
             dispatch(movieActions.deleteFavoriteMovieFailure(error.message));
             dispatch(uiActions.setLoading(false));
@@ -118,7 +116,7 @@ const addFavoriteMovieFlow = ({api}) => ({dispatch}) => next => async (action) =
             const movieId = action.payload.movieId;
             await api.movie.addFavorite(userId, movieId);
             dispatch(movieActions.addFavoriteMovieSuccess());
-            dispatch(uiActions.setLoading(false));
+            dispatch(movieActions.getCurrentMovie(movieId));
         }catch (error){
             dispatch(movieActions.addFavoriteMovieFailure(error.message));
             dispatch(uiActions.setLoading(false));
@@ -130,12 +128,11 @@ const getCurrentMovieFlow = ({api}) => ({dispatch, getState}) => next => async (
     next(action);
     if(action.type === movieActions.GET_CURRENT_MOVIE){
         try{
-            dispatch(uiActions.setLoading(true));
             const movieId = action.payload;
             const moviefromBack = await api.movie.getMovie(movieId);
             const movie = transformMovieFromBack(moviefromBack);
             const favoriteList = getState().movie.movies.filter(movie => movie.id === movieId);
-            const votedList = getState().movie.votedMovies.filter(movie => movie.id === movieId); //cambiar movie por id y ya no se usa movie.id
+            const votedList = getState().movie.votedMovies.filter(id => id === movieId); 
             if(favoriteList.length === 1){
                 movie.isFavorite = true;
             } else{
@@ -147,7 +144,6 @@ const getCurrentMovieFlow = ({api}) => ({dispatch, getState}) => next => async (
             } else{
                 movie.isVoted = false;
             }
-
             dispatch(movieActions.setCurrentMovieSuccess(movie));
             dispatch(uiActions.setLoading(false));
         }catch (error){
@@ -161,10 +157,8 @@ const getVotedMoviesFlow = ({api}) => ({dispatch}) => next => async (action) => 
     next(action);
     if(action.type === movieActions.GET_VOTED_MOVIES){
         try{
-            dispatch(uiActions.setLoading(true));
             const userId = action.payload
-            const movieListfromBack = await api.movie.getVoted(userId);
-            const movieList = transformMovieListFromBack(movieListfromBack);//no necesario creo
+            const movieList = await api.movie.getVoted(userId);
             dispatch(movieActions.setVotedMoviesSuccess(movieList));
         }catch (error){
             dispatch(movieActions.setVotedMoviesFailure(error.message));
@@ -181,9 +175,9 @@ const voteMovieFlow = ({api}) => ({dispatch}) => next => async (action) => {
             const userId = action.payload.userId;
             const movieId = action.payload.movieId;
             const score = action.payload.score;
-            await api.movie.vote(userId, movieId, score);
-            dispatch(movieActions.voteMovieSuccess);
-            dispatch(uiActions.setLoading(false));
+            await api.movie.vote(userId, movieId, score); 
+            dispatch(movieActions.voteMovieSuccess());
+            dispatch(movieActions.getCurrentMovie(movieId));
         }catch (error){
             dispatch(movieActions.voteMovieFailure(error.message));
             dispatch(uiActions.setLoading(false));

@@ -1,10 +1,11 @@
-import {LOGIN_USER_SUCCESS, LOGIN_USER_FAILURE, LOGOUT_SUCCESS, UPDATE_USER_SUCCESS, UPDATE_USER_FAILURE} from "../actions/user";
+import {LOGIN_USER_SUCCESS, LOGIN_USER_FAILURE, LOGOUT_SUCCESS, UPDATE_USER_SUCCESS, UPDATE_USER_FAILURE, SEE_FORM_ON, SEE_FORM_OFF} from "../actions/user";
 
 const initialState = {
     userId: localStorage.getItem('userId'),
     userName: localStorage.getItem('userName'), 
     userImage: localStorage.getItem('userImage'),
-    error: null
+    error: null,
+    isUpdating: false
 };
 
 const reducer = (state = initialState, action) => {
@@ -19,6 +20,9 @@ const reducer = (state = initialState, action) => {
             return {...state, userImage: action.payload.image, userName: action.payload.name}
         case UPDATE_USER_FAILURE:
             return {...state, error: action.payload };
+        case SEE_FORM_ON:
+        case SEE_FORM_OFF:
+            return {...state, isUpdating: action.payload };
         default:
             return state;
     }
