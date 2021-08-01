@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from "react-router-dom";
 
 const Movies = ({ user, movies, isFavorite, method }) => {
 
@@ -18,6 +19,7 @@ const Movies = ({ user, movies, isFavorite, method }) => {
                     <p className="card-text">Rate: {movie.rate}</p>
                     {isFavorite ? <button onClick={() => deleteMovie(user, movie.id)} class="btn btn-danger">Delete movie</button> : null
                     }
+                    <Link to={"/movie/"+movie.id} className="nav-link">ver pelicula</Link>
                   </div>
                 </div>
             </div> 

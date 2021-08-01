@@ -6,6 +6,8 @@ export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
 export const UPDATE_USER = 'UPDATE_USER';
 export const UPDATE_USER_SUCCESS = 'UPDATE_USER_SUCCESS';
 export const UPDATE_USER_FAILURE = 'UPDATE_USER_FAILURE';
+export const SEE_FORM_ON = 'SEE_FORM_ON';
+export const SEE_FORM_OFF = 'SEE_FORM_OFF';
 
 export const loginUser = () => ({
     type: LOGIN_USER
@@ -43,4 +45,9 @@ export const updateUserSuccess = (name, image) => ({
 export const updateUserFailure = error => ({
     type: UPDATE_USER_FAILURE,
     payload: error
+});
+
+export const seeForm = isUpdating => ({
+    type: isUpdating ? SEE_FORM_ON : SEE_FORM_OFF,
+    payload: isUpdating
 });

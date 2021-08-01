@@ -1,6 +1,7 @@
 import React, {useEffect} from 'react';
 import {bindActionCreators} from "redux";
 import {getMoviesWithoutFilter, getMoviesByTitle, getMoviesByCategory, getTopMovies} from "../../application/actions/movie";
+import {setRedirecting} from "../../application/actions/ui";
 import { connect } from "react-redux";
 import {getUser} from "../../application/selectors/user";
 import {getLoading} from "../../application/selectors/ui";
@@ -11,10 +12,11 @@ import Movies from "../components/Movies";
 import TopMovies from "../components/TopMovies";
 import '../css/movies.css'
 
-const AllMovies = ({getMoviesWithoutFilter, getTopMovies, getMoviesByTitle, getMoviesByCategory, movieList, user, topMovieList, loading, error}) => {
+const AllMovies = ({getMoviesWithoutFilter, getTopMovies, getMoviesByTitle, getMoviesByCategory, movieList, user, topMovieList, loading, setRedirecting, error}) => {
   const { register, handleSubmit } = useForm();
 
   useEffect(() => {
+    setRedirecting(false);
     getMoviesWithoutFilter();
     getTopMovies();
   }, []) 
@@ -73,7 +75,7 @@ const AllMovies = ({getMoviesWithoutFilter, getTopMovies, getMoviesByTitle, getM
 
 
 const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({getMoviesWithoutFilter, getMoviesByTitle, getMoviesByCategory, getTopMovies}, dispatch);
+  return bindActionCreators({getMoviesWithoutFilter, getMoviesByTitle, getMoviesByCategory, getTopMovies, setRedirecting}, dispatch);
 }
 
 const mapStateToProps = (state) => {

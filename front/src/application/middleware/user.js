@@ -23,6 +23,7 @@ const loginUserFlow = ({firebase, api}) => ({dispatch}) => next => async (action
             localStorage.setItem('userName', name);
             localStorage.setItem('userImage', image);
             dispatch(actions.loginUserSuccess(id, name, image));
+            dispatch(uiActions.setRedirecting(true));
             dispatch(uiActions.setLoading(false));
         }catch (error){
             dispatch(actions.loginUserFailure(error.message));
@@ -53,6 +54,9 @@ const updateUserFlow = ({api}) => ({dispatch}) => next => async (action) => {
             const userName = action.payload.name;
             const userImage = action.payload.image;
             await api.user.updateUser(userId, userName, userImage);
+            localStorage.setItem('userId', userId);
+            localStorage.setItem('userName', userName);
+            localStorage.setItem('userImage', userImage);
             dispatch(actions.updateUserSuccess(userName, userImage));
             dispatch(uiActions.setLoading(false));
         }catch (error){
