@@ -1,8 +1,12 @@
 const express = require('express');
 const router = express.Router();
 
-const createUserController = require('../controller/UserController')
+const {findUser, showFavorites} = require('../controller/UserController')
 
-router.get('/getuser/:_id', createUserController())
+const findUserbyId = findUser();
+const showUserFavorites = showFavorites();
+
+router.get('/getuser/:_id', findUserbyId)
+router.get('/getuser_favorites/:_id', showUserFavorites)
 
 module.exports = router; 
