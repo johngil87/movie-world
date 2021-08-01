@@ -33,16 +33,15 @@ public class ApiRest {
     private final GetMovieByCategoryUseCase getMovieByCategoryUseCase;
     private final GetVotesUserUseCase getVotesUserUseCase;
     private final UpdateUserUseCase updateUserUseCase;
+    private final GetListFavoritesUseCase getListFavoritesUseCase;
 
 
     @PostMapping(path = "/createmovie")
     public ResponseEntity<MovieDTO> commandName(@RequestBody MovieDTO movieDTO) {
-        try {
+
             Movie movie = movieMapper.dtoToMovie(movieDTO);
             return new ResponseEntity<>(movieMapper.movieToDto(createMovieUseCase.execute(movie)), HttpStatus.OK);
-        } catch (Exception ex) {
-            return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
-        }
+
     }
 
     @GetMapping(path = "/movie/{id}")
@@ -130,5 +129,16 @@ public class ApiRest {
         }catch (Exception ex){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+
+    @GetMapping(path = "/listfavorites/{id}")
+    public ResponseEntity<List<MovieDTO>> listFavorites(@PathVariable("id") String id){
+        try{
+            List<Movie> newList = getListFavoritesUseCase.execute(id);
+            return new ResponseEntity<>(movieMapper.listMovieToDto(newList), HttpStatus.OK);
+        }catch (Exception exception){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
     }
 }
