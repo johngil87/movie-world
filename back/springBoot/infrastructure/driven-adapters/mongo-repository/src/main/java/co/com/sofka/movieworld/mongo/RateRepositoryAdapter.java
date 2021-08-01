@@ -2,14 +2,10 @@ package co.com.sofka.movieworld.mongo;
 
 import co.com.sofka.movieworld.model.user.Rate;
 import co.com.sofka.movieworld.model.user.gateways.RateRepository;
-import co.com.sofka.movieworld.model.user.gateways.UserRepository;
 import co.com.sofka.movieworld.mongo.entities.RateEntity;
-import co.com.sofka.movieworld.mongo.entities.UserEntity;
 import co.com.sofka.movieworld.mongo.helper.AdapterOperations;
 import org.reactivecommons.utils.ObjectMapper;
 import org.springframework.stereotype.Repository;
-
-import java.util.Optional;
 
 @Repository
 public class RateRepositoryAdapter extends AdapterOperations<RateEntity, RateEntity, String, RateDBRepository>
@@ -32,7 +28,7 @@ public class RateRepositoryAdapter extends AdapterOperations<RateEntity, RateEnt
 
     @Override
     public Rate findRateByMovie(String id) {
-        RateEntity rateEntity = repository.findByIdMovie(id);
+        RateEntity rateEntity = repository.findRateEntityByIdMovie(id);
         if(rateEntity == null){
             throw new IllegalArgumentException("puntaje no encontrado");
         }
