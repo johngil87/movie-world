@@ -7,7 +7,6 @@ import co.com.sofka.movieworld.model.user.gateways.RateRepository;
 import lombok.RequiredArgsConstructor;
 
 import java.util.ArrayList;
-import java.util.List;
 
 @RequiredArgsConstructor
 public class CreateMovieUseCase {

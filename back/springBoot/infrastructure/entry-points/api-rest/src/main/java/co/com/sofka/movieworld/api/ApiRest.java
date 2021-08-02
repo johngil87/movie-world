@@ -37,7 +37,6 @@ public class ApiRest {
 
     @PostMapping(path = "/createmovie")
     public ResponseEntity<MovieDTO> commandName(@RequestBody MovieDTO movieDTO) {
-
             Movie movie = movieMapper.dtoToMovie(movieDTO);
             return new ResponseEntity<>(movieMapper.movieToDto(createMovieUseCase.execute(movie)), HttpStatus.OK);
 
