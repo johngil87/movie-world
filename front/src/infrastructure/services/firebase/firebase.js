@@ -3,13 +3,13 @@ import "firebase/auth";
 import "firebase/firestore";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyCODn2-Da9PdQ7pa0E02Q0YzRq9CyQXVGg",
-    authDomain: "movie-world-4de5f.firebaseapp.com",
-    projectId: "movie-world-4de5f",
-    storageBucket: "movie-world-4de5f.appspot.com",
-    messagingSenderId: "988564781224",
-    appId: "1:988564781224:web:34a2146a9f5ec2fe24aa9d",
-    measurementId: "G-W7KXTDVZKE"
+    apiKey: "AIzaSyAVd6DXNojXziya6aoDGf8aB88pcLX6AH8",
+    authDomain: "movieworld-f2d10.firebaseapp.com",
+    projectId: "movieworld-f2d10",
+    storageBucket: "movieworld-f2d10.appspot.com",
+    messagingSenderId: "899929460788",
+    appId: "1:899929460788:web:cdb2490a99cee62bfe3a61",
+    measurementId: "G-X6Q6HPK2GJ"
 };
 
 firebase.initializeApp(firebaseConfig);
