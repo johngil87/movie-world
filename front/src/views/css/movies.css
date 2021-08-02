@@ -6,3 +6,26 @@
   padding-bottom: 0px !important;
 }
 
+.badge{
+  position: relative;
+  right: -185px;
+  top: -35px;
+}
+.card-body{
+  padding-bottom: 15px !important;
+}
+
+body{
+  font-family: 'Source Sans Pro', Arial, sans-serif;
+}
+
+.updateForm{
+  position: fixed;
+  left: 900px;
+  top: 60px;
+  z-index: 100;
+}
+
+.imgMovie{
+  width: 16em !important;
+}
