@@ -22,40 +22,49 @@ const AllMovies = ({getMoviesWithoutFilter, getTopMovies, getMoviesByTitle, getM
   }, []) 
 
   const onSubmitCategory = async (data) => {
-    getMoviesByCategory(data.category)
+    if(data.category === "Mostrar todas"){
+      getMoviesWithoutFilter();
+    } else{
+      getMoviesByCategory(data.category)
+    }
+    
   };
 
   const onSubmitTitle = async (data) => {
-    getMoviesByTitle(data.title);
+    if(data.title != ""){
+      getMoviesByTitle(data.title);
+    }
   };
 
   return (
-    <div class="container">
-      <h2 class="text-center mb-4">All Movies</h2>
-      <hr></hr>
-      <TopMovies movies={topMovieList}/>
-
-      <div className="d-flex justify-content-between">
+    <div className="container">
+      <h1 className="text-center mb-4">Lista de Películas</h1>
+      <label htmlFor="category">Buscar por Género:</label>
+      <div className="d-flex justify-content-between mb-5">
         <form className="form-inline" onSubmit={handleSubmit(onSubmitCategory)}>
-          <label htmlFor="category">Search by category:</label>
           <select {...register("category")} className="form-control mr-sm-2" name="category" id="category">
-            <option value="Mostrar todos">Mostrar todos</option>
+            <option value="Mostrar todas">Mostrar todas</option>
+            <option value="Accion">Accion</option>
+            <option value="Romance">Romance</option>
             <option value="Terror">Terror</option>
-            <option value="Genero2">Genero2</option>
+            <option value="Drama">Drama</option>
+            <option value="Ciencia Ficcion">Ciencia Ficcion</option>
+            <option value="Comedia">Comedia</option>
+            <option value="Crimen">Crimen</option>
+            <option value="Fantasia">Fantasia</option>
           </select>
           <button className="btn btn-success" type="submit">Buscar</button>
         </form> 
 
         <form className="form-inline" onSubmit={handleSubmit(onSubmitTitle)}>
           <div className="form-group">
-            <label htmlFor="title">Search by title:</label>
-            <input className="form-control" type="text" placeholder="Title" name="title" id="title" {...register("title")}></input>
+            <input className="form-control mr-sm-2" type="text" placeholder="Bscar por nombre" name="title" id="title" {...register("title")}></input>
           </div>
           <button className="btn btn-success" type="submit">Buscar</button>
         </form>
       </div>
-
       <hr></hr>
+
       {loading ?
         <div className="spinner-border text-success" role="status">
           <span className="sr-only">Loading...</span>
@@ -65,7 +74,10 @@ const AllMovies = ({getMoviesWithoutFilter, getTopMovies, getMoviesByTitle, getM
           {error ? 
             <div>{error}</div> 
           : 
-            <Movies movies={movieList} user={user} isFavorite={false}/>
+            <div className="row">
+              <Movies movies={movieList} user={user} isFavorite={false}/>
+              <TopMovies movies={topMovieList}/>
+            </div>  
           }
         </div>
       )}

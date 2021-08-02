@@ -11,6 +11,7 @@ const getMoviesWithoutFilterFlow = ({api}) => ({dispatch}) => next => async (act
             const movieListfromBack = await api.movie.getAll();
             const movieList = transformMovieListFromBack(movieListfromBack);
             dispatch(movieActions.setMovieListSuccess(movieList));
+            dispatch(uiActions.setLoading(false));
         }catch (error){
             dispatch(movieActions.setMovieListFailure(error.message));
             dispatch(uiActions.setLoading(false));
@@ -22,6 +23,7 @@ const getTopMoviesFlow = ({api}) => ({dispatch}) => next => async (action) => {
     next(action);
     if(action.type === movieActions.GET_TOP_MOVIES){
         try{
+            dispatch(uiActions.setLoading(true));
             const movieListfromBack = await api.movie.getTop();
             const movieList = transformMovieListFromBack(movieListfromBack);
             dispatch(movieActions.setTopMovieListSuccess(movieList));

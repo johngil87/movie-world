@@ -39,7 +39,6 @@ export default {
         return response.data;
     },
     vote: async (userId, movieId, score) => {
-        console.log(userId, movieId, score)
         const response = await axios.put('https://movieworld-back-spring.herokuapp.com/api/voteMovie',{
             idUser: userId,
             idMovie: movieId,
