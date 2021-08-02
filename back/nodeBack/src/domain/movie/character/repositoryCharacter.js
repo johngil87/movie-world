@@ -1,6 +1,6 @@
 class RepositoryCharacter{
 
-  async geCharacterById(_id) {
+  async getCharacterById(_id) {
     throw new Error("metodo no implementado")
   }
 };
