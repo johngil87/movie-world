@@ -9,6 +9,9 @@ public class CreateUserUseCase {
     private final UserRepository repository;
 
     public User execute(User user){
+        if(user.getNombre().getValue().isEmpty()){
+            throw new IllegalArgumentException("el nombre del usuario no puede estar vacio");
+        }
         return repository.loginUser(user);
     }
 }

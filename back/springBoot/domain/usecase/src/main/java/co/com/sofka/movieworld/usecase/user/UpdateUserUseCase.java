@@ -9,6 +9,9 @@ public class UpdateUserUseCase {
     private final UserRepository userRepository;
 
     public User execute(User user){
+        if(user.getNombre().getValue().isEmpty()){
+            throw  new IllegalArgumentException("para actualizar el usuario es obligatorio el nombre");
+        }
         User newUser = userRepository.findUserById(user.getId());
         newUser.setImage(user.getImage());
         newUser.setNombre(user.getNombre());

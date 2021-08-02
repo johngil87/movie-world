@@ -20,50 +20,48 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-class AddFavoritesUseCaseTest {
-
+class CreateUserUseCaseTest {
 
     private UserRepository repository;
-    private AddFavoritesUseCase useCase;
+    private CreateUserUseCase useCase;
 
     @BeforeEach
     public void setUp(){
         repository = mock(UserRepository.class);
-        useCase = new AddFavoritesUseCase(repository);
+        useCase = new CreateUserUseCase(repository);
     }
 
-
     @Test
-    @DisplayName("test para añadir favoritos al usuario")
-    public void addFavoritesHappyTest(){
+    @DisplayName("test para crear y consultar usuario")
+    public void createUserHappyTest(){
         Set<UserRate> userRates = new HashSet<>();
         userRates.add(new UserRate("123", "456", new Score(3.6)));
         Set<String> listFavorites = new HashSet<>();
         listFavorites.add("456");
-        User user = new User(new Name("paola"), new Email("paola@gmail.com"), new UrlResource("imagen"),new HashSet<>(), new HashSet<>());
-        User user2 = new User(new Name("paola"), new Email("paola@gmail.com"), new UrlResource("imagen"),listFavorites, new HashSet<>());
+        User user = new User(new Name("paola"), new Email("paola@gmail.com"), new UrlResource("imagen"), listFavorites, new HashSet<>());
 
-        when(repository.findUserById("123")).thenReturn(user);
-        when(repository.changeFavorites(any())).thenReturn(user2);
-        User user3 = useCase.execute("123", "456");
-
-        Assertions.assertEquals(1, user3.getIdFavorites().size());
-        Assertions.assertEquals("paola", user3.getNombre().getValue());
+        when(repository.loginUser(any())).thenReturn(user);
+        User response= useCase.execute(user);
+        Assertions.assertEquals("paola", response.getNombre().getValue());
     }
 
     @Test
-    @DisplayName("test de fallo al añadir favoritos al usuaio")
-    public void addFavoritesSadTest(){
+    @DisplayName("test de fallo para crear usuario")
+    public void createUserSadTest(){
         Set<UserRate> userRates = new HashSet<>();
         userRates.add(new UserRate("123", "456", new Score(3.6)));
         Set<String> listFavorites = new HashSet<>();
         listFavorites.add("456");
-        User user = new User(new Name("paola"), new Email("paola@gmail.com"), new UrlResource("imagen"),new HashSet<>(), new HashSet<>());
+        User user = new User(new Name(""), new Email("paola@gmail.com"), new UrlResource("imagen"), listFavorites, new HashSet<>());
 
-        when(repository.findUserById("123")).thenReturn(user);
-        when(repository.changeFavorites(any())).thenReturn(user);
-        User response = useCase.execute("123", "456");
-
-        Assertions.assertEquals(true, response.getRate().isEmpty());
+        when(repository.loginUser(any())).thenReturn(user);
+        Exception exception= null;
+        try {
+            User response= useCase.execute(user);
+        }catch (Exception ex){
+            exception = ex;
+        }
+        Assertions.assertEquals("el nombre del usuario no puede estar vacio", exception.getMessage());
     }
+
 }

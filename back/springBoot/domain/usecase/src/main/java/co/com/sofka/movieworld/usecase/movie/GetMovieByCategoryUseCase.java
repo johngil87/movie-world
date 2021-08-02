@@ -28,6 +28,7 @@ public class GetMovieByCategoryUseCase {
         list.add("Terror");
         list.add("Fantasia");
         list.add("Comedia");
+        list.add("Ciencia Ficcion");
         return list.contains(caracter);
     }
 }
