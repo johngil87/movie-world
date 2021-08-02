@@ -1,5 +1,5 @@
 const RepositoryCharacterDb = require('../repositories/repositoryCharacterDb')
-const getCharacterUseCase = require('../../application/usecases/getCharacterUsecase')
+const getCharacterUseCase = require('../../application/usecases/getCharacterUseCase')
 
 const repositoryCharacterDb = new RepositoryCharacterDb()
 module.exports = function findCharacter(){
