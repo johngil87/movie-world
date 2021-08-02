@@ -1,0 +1,13 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: "movieWorld"
+  devtools:
+    add-properties: false
+
+  profiles:
+    include: null
+  data:
+    mongodb:
+      uri: "mongodb+srv://adminuser:retoSofka123@cluster0.i58xo.mongodb.net/movie-world-db?retryWrites=true&w=majority"

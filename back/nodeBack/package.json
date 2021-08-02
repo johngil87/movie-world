@@ -1,0 +1,34 @@
+{
+  "name": "nodeback",
+  "version": "1.0.0",
+  "description": "BACK CON NODE JS",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/infrastructure/server/server.js",
+    "dev": "nodemon src/infrastructure/server/server.js",
+    "test": "jest src --watch",
+    "test:e2e": "jest ./__test__ --runInBand"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "jest": "^27.0.6",
+    "mongoose": "^5.13.3",
+    "nodemon": "^2.0.12",
+    "verbose": "^0.2.3"
+  },
+  "devDependencies": {
+    "eslint": "^7.30.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^3.4.0",
+    "nodemon": "^2.0.10",
+    "prettier": "^2.3.2",
+    "axios": "^0.21.1",
+    "proxyquire": "^2.1.3"
+  }
+}
